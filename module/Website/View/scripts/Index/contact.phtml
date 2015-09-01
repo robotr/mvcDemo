@@ -1,0 +1,10 @@
+<?php
+/**
+ * contact.phtml
+ * @copyright Copyright © 2015 cloud-nemo
+ * @author    cloud-nemo
+ */
+if (is_string($this->text) && !empty($this->text)) { ?>
+    <label for="nl-email"><?php echo $this->text ?></label><br>
+    <input type="text" name="nl-email" value="" placeholder="me@mail.org"/>
+<?php }
