@@ -34,6 +34,11 @@ class Handler
     /**
      * @var array
      */
+    protected $_args = array();
+
+    /**
+     * @var array
+     */
     protected $_keys = array('code', 'msg', 'file', 'line');
 
     /**
@@ -44,16 +49,17 @@ class Handler
     {
         $this->_config = $config;
         $this->_callable = function() {
-            $args = func_get_args();
-            if (5 == count($args) && ($fh = fopen($this->_fileName, 'a'))) {
-                if (isset($args[4])) {
-                    unset($args[4]);
+            $this->_args = func_get_args();
+            if (5 == count($this->_args) && ($fh = fopen($this->_fileName, 'a'))) {
+                if (isset($this->_args[4])) {
+                    unset($this->_args[4]);
                 }
-                $args = array_combine($this->_keys, $args);
-                $args['code'] = Type::getName($args['code']);
-                $args['date'] = date('r');
+                $this->_args = array_combine($this->_keys, $this->_args);
+                $this->_args['code'] = Type::getName($this->_args['code']);
+                $this->_args['date'] = date('r');
                 fwrite($fh, sprintf('[%s] [%s] %s in %s on line %s' . PHP_EOL,
-                    $args['date'], $args['code'], $args['msg'], $args['file'], $args['line']));
+                    $this->_args['date'], $this->_args['code'], $this->_args['msg'],
+                    $this->_args['file'], $this->_args['line']));
                 fclose($fh);
             }
         };
@@ -78,5 +84,13 @@ class Handler
             // reset to default
             set_error_handler(NULL);
         }
+    }
+
+    /**
+     * @return callable|mixed
+     */
+    public function getCallable()
+    {
+        return $this->_callable;
     }
 }

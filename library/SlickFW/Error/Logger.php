@@ -5,7 +5,7 @@
 /**
  * Logger
  * @category  SlickFW\Error
- * @package SlickFW
+ * @package   SlickFW
  */
 
 namespace SlickFW\Error;
@@ -41,6 +41,16 @@ class Logger
             // @todo implement other logger types
             throw new \Exception('No "log_dir" specified in configuration!');
         }
+    }
+
+    /**
+     * log an error
+     */
+    public function error($message)
+    {
+        $trace  = debug_backtrace();
+        $callee = current($trace);
+        $this->log($message, $callee['file'], $callee['line']);
     }
 
     /**

@@ -29,6 +29,7 @@ class Setup extends ModuleSetup
         if ($logger instanceof \SlickFW\Error\Logger) {
             $logger->log('Your Module "' . __NAMESPACE__ . '" is set-up!',
                 __FILE__, __LINE__, E_NOTICE);
+            $logger->error('... ... Nefertiti! ...');
         }
     }
 }
