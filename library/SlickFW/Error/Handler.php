@@ -59,7 +59,6 @@ class Handler
                             $args[3] = $exc->getLine();
                             $args[4] = $exc->getTraceAsString();
                             $this->_keys[]  = 'trace';
-                            unset($args[4]);
                         }
                     }
                 } elseif (1 == count($args)) {
@@ -104,6 +103,7 @@ class Handler
         } else {
             // reset to default
             set_error_handler(NULL);
+            set_exception_handler(NULL);
         }
     }
 

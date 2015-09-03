@@ -43,6 +43,7 @@ class World
                 if ($sth instanceof \PDOStatement && $sth->execute()) {
                     $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
                 }
+                return $result;
             }
         }
         return $result;

@@ -78,6 +78,8 @@ class Route
                 $response = $trX->getBody();
             }
         } catch (\Exception $e) {
+            throw $e;
+        } finally {
             if (function_exists('http_response_code')) {
                 http_response_code('404');
             }
@@ -90,7 +92,6 @@ class Route
                     str_replace(PHP_EOL, PHP_EOL . '  ', $e->getTraceAsString()) . PHP_EOL . '</pre>' .
                     PHP_EOL . 'in ' . __FILE__ . ' on line ' . __LINE__;
             }
-            throw $e;
         }
         return $response;
     }
@@ -115,12 +116,12 @@ class Route
             }
             if (preg_match($from, $uri, $args)) {
                 $message = self::execute($to, $module, $args);
-                continue;
+                break;
             }
         }
 
         if (isset($message)) {
-            echo $message;
+            return $message;
         } else {
             // todo no Route >> redirect??
             header('Location: ' . $scheme . '://' . $_SERVER['SERVER_NAME'] . $port . $basePath);

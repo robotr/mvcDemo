@@ -38,6 +38,7 @@ class Listener
 
     /**
      * @param string $module
+     * @throws \Exception
      */
     public static function route($module)
     {
@@ -47,10 +48,7 @@ class Listener
                 try {
                     Route::process(urldecode($uri), self::$routes[$module], $module);
                 } catch(\Exception $e) {
-                    trigger_error('Exception with message: ' . PHP_EOL .
-                        '"' . $e->getMessage() . '"' . PHP_EOL .
-                        'Stack-Trace:' . PHP_EOL . '  ' . str_replace(PHP_EOL, PHP_EOL . '  ', $e->getTraceAsString()),
-                        E_USER_ERROR);
+                    throw $e;
                 }
             }
         }
