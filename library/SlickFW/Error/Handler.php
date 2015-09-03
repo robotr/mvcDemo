@@ -34,11 +34,6 @@ class Handler
     /**
      * @var array
      */
-    protected $_args = array();
-
-    /**
-     * @var array
-     */
     protected $_keys = array('code', 'msg', 'file', 'line');
 
     /**
@@ -49,17 +44,42 @@ class Handler
     {
         $this->_config = $config;
         $this->_callable = function() {
-            $this->_args = func_get_args();
-            if (5 == count($this->_args) && ($fh = fopen($this->_fileName, 'a'))) {
-                if (isset($this->_args[4])) {
-                    unset($this->_args[4]);
+            $args = func_get_args();
+            if (($fh = fopen($this->_fileName, 'a'))) {
+                if (5 == count($args)) {
+                    if (isset($args[4])) {
+                        if (isset($args[4]['e']) && $args[4]['e'] instanceof \Exception) {
+                            /** @var \Exception $exc */
+                            $exc = $args[4]['e'];
+                            unset($args[4]['e']);
+                            $source = array_shift($args[4]);
+                            $args[0] = Type::E_USER_EXCEPTION;
+                            $args[1] = get_class($exc) . ': ' . $exc->getMessage();
+                            $args[2] = $exc->getFile();
+                            $args[3] = $exc->getLine();
+                            $args[4] = $exc->getTraceAsString();
+                            $this->_keys[]  = 'trace';
+                            unset($args[4]);
+                        }
+                    }
+                } elseif (1 == count($args)) {
+                    if ($args[0] instanceof \Exception) {
+                        /** @var \Exception $exc */
+                        $exc = array_shift($args);
+                        $args[0] = Type::E_USER_CATCHABLE;
+                        $args[1] = 'Uncaught ' . get_class($exc) . ': ' . $exc->getMessage();
+                        $args[2] = $exc->getFile();
+                        $args[3] = $exc->getLine();
+                        $args[4] = $exc->getTraceAsString();
+                        $this->_keys[]  = 'trace';
+                    }
                 }
-                $this->_args = array_combine($this->_keys, $this->_args);
-                $this->_args['code'] = Type::getName($this->_args['code']);
-                $this->_args['date'] = date('r');
-                fwrite($fh, sprintf('[%s] [%s] %s in %s on line %s' . PHP_EOL,
-                    $this->_args['date'], $this->_args['code'], $this->_args['msg'],
-                    $this->_args['file'], $this->_args['line']));
+                // create log-message
+                $args = array_combine($this->_keys, $args);
+                $args['code'] = Type::getName($args['code']);
+                $args['date'] = date('r');
+                fwrite($fh, (!in_array('trace', $this->_keys)) ?
+                    $this->_getMessage($args) : $this->_getTraceMessage($args));
                 fclose($fh);
             }
         };
@@ -80,6 +100,7 @@ class Handler
         ) {
             $this->_fileName = $dir . '/' . $this->_logfile;
             set_error_handler($this->_callable, $errors);
+            set_exception_handler($this->_callable);
         } else {
             // reset to default
             set_error_handler(NULL);
@@ -87,10 +108,28 @@ class Handler
     }
 
     /**
-     * @return callable|mixed
+     * return message for common errors
+     * @param array $params
+     * @return string
      */
-    public function getCallable()
+    private function _getMessage($params)
     {
-        return $this->_callable;
+        return sprintf('[%s] [%s] %s in %s on line %s' . PHP_EOL,
+            $params['date'], $params['code'], $params['msg'],
+            $params['file'], $params['line']);
     }
+
+    /**
+     * return message with additional backtrace
+     * @param array $params
+     * @return string
+     */
+    private function _getTraceMessage($params)
+    {
+        return sprintf('[%s] [%s] %s' . PHP_EOL . 'Stack-Trace:' . PHP_EOL . '  ' .
+            '%s' . PHP_EOL . 'in %s on line %s' . PHP_EOL,
+            $params['date'], $params['code'], $params['msg'],
+            str_replace(PHP_EOL, PHP_EOL . '  ', $params['trace']), $params['file'], $params['line']);
+    }
+
 }

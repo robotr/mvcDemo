@@ -82,7 +82,7 @@ class ResponseAbstract
 
         }
 
-        echo $this->_body;
+        return $this->_body;
     }
 
 }

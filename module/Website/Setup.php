@@ -20,16 +20,12 @@ use SlickFW\Router\Listener;
 class Setup extends ModuleSetup
 {
     /**
-     * @var \SlickFW\Error\Logger
-     */
-    public $logger;
-
-    /**
      * @return void
      */
     public function run()
     {
+        //*
+        $logger = $this->get(array('Logger' => 'file'));// */
         Listener::route(__NAMESPACE__);
-        $this->logger = $this->get(array('Logger' => 'file'));
     }
 }

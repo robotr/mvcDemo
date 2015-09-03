@@ -12,6 +12,10 @@ namespace SlickFW\Error;
 
 class Type
 {
+    const E_USER_CATCHABLE = 101;
+
+    const E_USER_EXCEPTION = 202;
+
     /**
      * return name of given error-type
      * @param int $type
@@ -33,6 +37,9 @@ class Type
             case E_PARSE:
                 $return = 'Error';
                 break;
+            case self::E_USER_EXCEPTION:
+                $return = 'Critical';
+                break;
             case E_WARNING:
                 // Warnings
             case E_CORE_WARNING:
@@ -51,7 +58,9 @@ class Type
                 $return = 'Strict-Warning';
                 break;
             case E_RECOVERABLE_ERROR:
-                $return = 'Uncaught Error';
+                // Uncaught ErrorException
+            case self::E_USER_CATCHABLE:
+                $return = 'Fatal';
                 break;
             case E_DEPRECATED:
                 // Deprecated Warnings

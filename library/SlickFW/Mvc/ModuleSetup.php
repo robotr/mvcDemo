@@ -68,6 +68,7 @@ abstract class ModuleSetup implements ModuleInterface
     /**
      * accessor for registered module-services and other general settings
      * @param string|array $service
+     * @throws \Exception
      * @return mixed|null
      */
     public function get($service)
@@ -76,9 +77,7 @@ abstract class ModuleSetup implements ModuleInterface
             try {
                 return $this->_serviceRegister->getService($service);
             } catch(\Exception $e) {
-                trigger_error($e->getMessage() . PHP_EOL . 'Stack-Trace: ' . PHP_EOL .
-                    '  ' . str_replace(PHP_EOL, PHP_EOL . '  ', $e->getTraceAsString()),
-                    E_USER_ERROR);
+                throw $e;
             }
         }
         return null;

@@ -66,16 +66,33 @@ class Route
         $rqX = $class->getRequest();
         $rqX->setModule($module)->setController($controller)
             ->setAction($action)->setDispatched(true);
+        $response = '';
+        try {
+            call_user_func($call, $values);
 
-        call_user_func($call, $values);
-
-        $trX = $class->getResponse();
-        $trX->setBody($class->view->render());
-        if ($rqX->isDispatched()) {
-            return '"' . $trX->send() . '"';
-        } else {
-            return $trX->getBody();
+            $trX = $class->getResponse();
+            $trX->setBody($class->view->render());
+            if ($rqX->isDispatched()) {
+                $response = '' . $trX->send() . '';
+            } else {
+                $response = $trX->getBody();
+            }
+        } catch (\Exception $e) {
+            if (function_exists('http_response_code')) {
+                http_response_code('404');
+            }
+            $prot = (!isset($_SERVER['SERVER_PROTOCOL'])) ? 'HTTP 1.0' : $_SERVER['SERVER_PROTOCOL'];
+            header($prot . ' 404 Not Found');
+            $response = '<h1>Application Error please cry as loud as you can and call your mommy!</h1>';
+            if (defined('APPLICATION_ENV') && 'local' == APPLICATION_ENV) {
+                $response .= '<h2>' . $e->getMessage() .  '</h2>' .
+                    'Stack-Trace:' . PHP_EOL . '<pre>  ' .
+                    str_replace(PHP_EOL, PHP_EOL . '  ', $e->getTraceAsString()) . PHP_EOL . '</pre>' .
+                    PHP_EOL . 'in ' . __FILE__ . ' on line ' . __LINE__;
+            }
+            throw $e;
         }
+        return $response;
     }
 
     /**
@@ -92,39 +109,20 @@ class Route
         $basePath = (isset($_SERVER['SCRIPT_NAME']) && $_SERVER['SCRIPT_NAME'] !== '/index.php') ?
             str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']) : null;
         $uri = str_replace($basePath, '', $uri);
-        $matched = false;
         foreach ($mapping as $from => $to) {
             if (empty($uri)) {
                 $uri = '/';
             }
             if (preg_match($from, $uri, $args)) {
-                $matched = true;
-                try {
-                    return self::execute($to, $module, $args);
-                } catch (\Exception $e) {
-                    if (function_exists('http_response_code')) {
-                        http_response_code('404');
-                    }
-                    $prot = (!isset($_SERVER['SERVER_PROTOCOL'])) ? 'HTTP 1.0' : $_SERVER['SERVER_PROTOCOL'];
-                    header($prot . ' 404 Not Found');
-                    $message = '<h1>The Requested Page could not be found!</h1>';
-                    if (defined('APPLICATION_ENV') && 'local' == APPLICATION_ENV) {
-                        $message .= '<h2>' . $e->getMessage() .  '</h2><pre>' .
-                            var_export($e, true) . PHP_EOL .
-                            'FILE: ' . __FILE__ . ' - LINE: ' . __LINE__ . '</pre>';
-                    }
-                    $matched = false;
-                }
+                $message = self::execute($to, $module, $args);
+                continue;
             }
-        }
-        if ($matched) {
-            return null;
         }
 
         if (isset($message)) {
-            return $message;
+            echo $message;
         } else {
-            // todo redirect!?
+            // todo no Route >> redirect??
             header('Location: ' . $scheme . '://' . $_SERVER['SERVER_NAME'] . $port . $basePath);
             exit;
         }
