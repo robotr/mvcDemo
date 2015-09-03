@@ -59,8 +59,8 @@ class Stream
         /**
          * replace short-open tags, parse php-tags
          */
-        $this->_data = preg_replace('/\<\?\=/',          "<?php echo ",  $this->_data);
-        $this->_data = preg_replace('/<\?(?!xml|php)/s', '<?php ',       $this->_data);
+        $this->_data = preg_replace('/\<\?\=/', '<?php echo ', $this->_data);
+        $this->_data = preg_replace('/<\?(?!xml|php)/s', '<?php ', $this->_data);
 
         /**
          * force update PHP's stat cache, to prevent additional reads

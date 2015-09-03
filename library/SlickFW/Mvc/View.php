@@ -71,21 +71,20 @@ class View
      */
     public function __construct($options = array())
     {
-        // disable use of stream wrapper if short-tags are used/supported
+        // enable use of stream wrapper if short-tags are used/supported
         $this->_useViewStream = (bool) ini_get('short_open_tag') ? false : true;
-        if ($this->_useViewStream) {
-            if (!$this->hasStreamWrapper()) {
-                stream_wrapper_register('slick.view', 'SlickFW\Mvc\View\Stream');
-            }
-        }
 
         // check setting to force usage of stream wrapper, enabling short-tags usage even if disabled
         if (array_key_exists('useStreamWrapper', $options)) {
+            $this->_useStreamWrapper = (bool) $options['useStreamWrapper'];
+            unset($options['useStreamWrapper']);
+        }
+
+        // set if custom stream-wrapper should be used
+        if ($this->_useViewStream && $this->_useStreamWrapper) {
             if (!$this->hasStreamWrapper()) {
                 stream_wrapper_register('slick.view', 'SlickFW\Mvc\View\Stream');
             }
-            $this->_setUseStreamWrapper($options['useStreamWrapper']);
-            unset($options['useStreamWrapper']);
         }
 
         // add filters to use somewhere upon setting public members that are passed through to the output
@@ -246,11 +245,10 @@ class View
                                 }
                             }
                         }
-                        break;
-                    } else {
-                        break;
                     }
+                    break;
                 default:
+                    // nothing
                     break;
             }
         } elseif (method_exists($this, $method)) {
@@ -289,8 +287,8 @@ class View
      */
     public function setLayout($name = '')
     {
-        if (!empty($this->_defaultLayout) && !empty($name) &&
-            (file_exists($name) || file_exists($name . $this->_scriptSuffix))
+        if (!empty($this->_defaultLayout) && !empty($name)
+            && (file_exists($name) || file_exists($name . $this->_scriptSuffix))
         ) {
             $this->_defaultLayout = $name;
         }
@@ -337,7 +335,7 @@ class View
         } elseif (file_exists($file . $this->_scriptSuffix)) {
             $file .= $this->_scriptSuffix;
         }
-        if ($this->_useViewStream || $this->useStreamWrapper()) {
+        if ($this->hasStreamWrapper()) {
             include 'slick.view://' . $file;
         } else {
             include $file;

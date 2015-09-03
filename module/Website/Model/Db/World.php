@@ -26,8 +26,10 @@ class World
         try {
             $db = $dbService->getAdapter();
         } catch (\PDOException $pE) {
-            Setup::getInstance('Website')->get(array('Logger' => 'file'))
-                ->log($pE->getMessage(), $pE->getFile(), $pE->getLine(), $pE->getCode());
+            if (isset(Setup::getInstance('Website')->logger)) {
+                Setup::getInstance('Website')->logger->error('Exception with message "' . $pE->getMessage() .
+                    '" thrown in ' . $pE->getFile() . ' on line ' . $pE->getLine() . ' code: ' . $pE->getCode());
+            }
             return $result;
         }
         $sth = null;

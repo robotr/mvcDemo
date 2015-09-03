@@ -154,7 +154,7 @@ class Http extends RequestAbstract
      */
     public function isAjax()
     {
-        if($this->_server->offsetExists('HTTP_X_REQUESTED_WITH')
+        if ($this->_server->offsetExists('HTTP_X_REQUESTED_WITH')
             && strtolower($this->_server['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
         ) {
             return true;
