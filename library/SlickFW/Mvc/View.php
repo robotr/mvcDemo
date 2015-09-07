@@ -23,6 +23,9 @@ class View
      */
     const PLACEHOLDER = 'content';
 
+    /**
+     * constant definition for default layout-script value
+     */
     const DEFAULTLAYOUT = 'layout';
 
     /**
@@ -64,6 +67,11 @@ class View
      * @var bool
      */
     protected $_useStreamWrapper = false;
+
+    /**
+     * @var Collection
+     */
+    protected $_parts;
 
     /**
      * ctor for the view-object takes config-parameters (from a Controller) initialized in module-setup
@@ -253,6 +261,14 @@ class View
             }
         } elseif (method_exists($this, $method)) {
             return call_user_func(array($this, $method), $params);
+        } else {
+            // call shortcut methods / instantiate view-part class
+            $file = dirname(__DIR__) . '/Mvc/View/Part/' . ucfirst($method) . '.php';
+            if (!isset($this->_parts[$method]) && file_exists($file)) {
+                $partClass = 'SlickFW\Mvc\View\Part\\' . ucfirst($method);
+                $this->_parts[$method] = new $partClass($this);
+            }
+            $return = $this->_parts[$method];
         }
         return $return;
     }

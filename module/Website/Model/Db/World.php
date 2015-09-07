@@ -28,12 +28,6 @@ class World
         try {
             $db = $dbService->getAdapter();
         } catch (\PDOException $pE) {
-            /*if (null !== ($log = Setup::getInstance('Website')->get(array('Logger' => 'file')))
-                && $log instanceof \SlickFW\Error\Logger
-            ) {
-                $log->error('Caught Exception with message "' . $pE->getMessage() . '"' . PHP_EOL
-                    . 'Stack-Trace:' . PHP_EOL . '  ' . str_replace(PHP_EOL, PHP_EOL . '  ', $pE->getTraceAsString()));
-            }*/
             throw $pE;
         } finally {
             $sth = null;
@@ -43,7 +37,6 @@ class World
                 if ($sth instanceof \PDOStatement && $sth->execute()) {
                     $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
                 }
-                return $result;
             }
         }
         return $result;

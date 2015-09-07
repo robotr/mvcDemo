@@ -21,7 +21,6 @@ class Route
      * @param string $to
      * @param string $module
      * @param array $args
-     * @return string|void
      * @throws \Exception
      */
     private static function execute($to, $module, $args)
@@ -69,7 +68,6 @@ class Route
         $response = '';
         try {
             call_user_func($call, $values);
-
             $trX = $class->getResponse();
             $trX->setBody($class->view->render());
             if ($rqX->isDispatched()) {
@@ -80,52 +78,43 @@ class Route
         } catch (\Exception $e) {
             throw $e;
         } finally {
-            if (function_exists('http_response_code')) {
-                http_response_code('404');
-            }
-            $prot = (!isset($_SERVER['SERVER_PROTOCOL'])) ? 'HTTP 1.0' : $_SERVER['SERVER_PROTOCOL'];
-            header($prot . ' 404 Not Found');
-            $response = '<h1>Application Error please cry as loud as you can and call your mommy!</h1>';
-            if (defined('APPLICATION_ENV') && 'local' == APPLICATION_ENV) {
-                $response .= '<h2>' . $e->getMessage() .  '</h2>' .
-                    'Stack-Trace:' . PHP_EOL . '<pre>  ' .
-                    str_replace(PHP_EOL, PHP_EOL . '  ', $e->getTraceAsString()) . PHP_EOL . '</pre>' .
-                    PHP_EOL . 'in ' . __FILE__ . ' on line ' . __LINE__;
+            if (isset($e)) {
+                if (function_exists('http_response_code')) {
+                    http_response_code('404');
+                }
+                $prot = (!isset($_SERVER['SERVER_PROTOCOL'])) ? 'HTTP 1.0' : $_SERVER['SERVER_PROTOCOL'];
+                header($prot . ' 404 Not Found');
+                $response = '<h1>Application Error please cry as loud as you can and call your mommy!</h1>';
+                if (defined('APPLICATION_ENV') && 'local' == APPLICATION_ENV && isset($e)) {
+                    $response .= '<h2>' . $e->getMessage() .  '</h2>' .
+                        'Stack-Trace:' . PHP_EOL . '<pre>  ' .
+                        str_replace(PHP_EOL, PHP_EOL . '  ', $e->getTraceAsString()) . PHP_EOL . '</pre>' .
+                        PHP_EOL . 'in ' . __FILE__ . ' on line ' . __LINE__;
+                }
             }
         }
-        return $response;
+        print $response;
     }
 
     /**
      * @param string $uri
      * @param array $mapping
      * @param string $module
-     * @return null|string|void
      */
     public static function process($uri, $mapping, $module = 'default')
     {
-        $port     = ((isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] !== '80') ?
-            ':' . $_SERVER['SERVER_PORT'] : null);
-        $scheme   = (isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : 'http');
         $basePath = (isset($_SERVER['SCRIPT_NAME']) && $_SERVER['SCRIPT_NAME'] !== '/index.php') ?
             str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']) : null;
         $uri = str_replace($basePath, '', $uri);
+        if (empty($uri)) {
+            $uri = '/';
+        }
         foreach ($mapping as $from => $to) {
-            if (empty($uri)) {
-                $uri = '/';
-            }
             if (preg_match($from, $uri, $args)) {
-                $message = self::execute($to, $module, $args);
+                self::execute($to, $module, $args);
                 break;
             }
         }
-
-        if (isset($message)) {
-            return $message;
-        } else {
-            // todo no Route >> redirect??
-            header('Location: ' . $scheme . '://' . $_SERVER['SERVER_NAME'] . $port . $basePath);
-            exit;
-        }
+        self::execute('Error/noroute', $module, array());
     }
 }

@@ -59,6 +59,8 @@ class Handler
                             $args[3] = $exc->getLine();
                             $args[4] = $exc->getTraceAsString();
                             $this->_keys[]  = 'trace';
+                        } else {
+                            unset($args[4]);
                         }
                     }
                 } elseif (1 == count($args)) {
