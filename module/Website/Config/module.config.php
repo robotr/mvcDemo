@@ -48,10 +48,10 @@ return array(
         )
     ),
     'routes' => array(
-        '#^/$#i'               => 'Index/index',
-        '#^/([a-zA-Z0-9]+)$#i' => 'Index/:action',
-        '#^/index/(.+)$#i'     => 'Index/:action',
-        '#^/error/(.+)$#i'     => 'Log/:action'
+        '#^/$#i'                     => 'Index/index',
+        '#^/([a-zA-Z0-9]*)$#i'       => 'Index/:action',
+        '#^/error/([a-zA-Z0-9]*)$#i' => 'Error/:action',
+        '#^/([a-zA-Z0-9]*)/(.*)$#i'  => ':Controller/:action',
     ),
     'defaultmodule' => 'Website'
 );

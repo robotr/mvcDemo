@@ -17,6 +17,33 @@ use SlickFW\Mvc\Controller\ControllerAbstract;
 
 class Route
 {
+
+    /**
+     * @param string $uri
+     * @param array $mapping
+     * @param string $module
+     */
+    public static function process($uri, $mapping, $module = 'default')
+    {
+        $basePath = (isset($_SERVER['SCRIPT_NAME']) && $_SERVER['SCRIPT_NAME'] !== '/index.php') ?
+            str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']) : null;
+        $uri = str_replace($basePath, '', $uri);
+        if (empty($uri)) {
+            $uri = '/';
+        }
+        $matched = false;
+        foreach ($mapping as $from => $to) {
+            if (preg_match($from, $uri, $args)) {
+                self::execute($to, $module, $args);
+                $matched = true;
+                break;
+            }
+        }
+        if (!$matched) {
+            self::execute('Error/noroute', $module, array());
+        }
+    }
+
     /**
      * @param string $to
      * @param string $module
@@ -27,6 +54,9 @@ class Route
     {
         $keys = explode('/', $to);
         $controller = $className = array_shift($keys);
+        if (':Controller' == $controller && isset($args[1])) {
+            $controller = $className = ucfirst($args[1]);
+        }
         $action = array_shift($keys);
         $className = $module . '\Controller\\' . $className;
         $class = null;
@@ -40,6 +70,9 @@ class Route
             }
             if (':action' == $action && isset($args[1])) {
                 $action = $args[1];
+                if (empty($action)) {
+                    $action = str_replace('/', '', $args[0]);
+                }
             }
         } elseif (class_exists($module . '\Controller\Error')) {
             $className = $module . '\Controller\Error';
@@ -65,56 +98,19 @@ class Route
         $rqX = $class->getRequest();
         $rqX->setModule($module)->setController($controller)
             ->setAction($action)->setDispatched(true);
-        $response = '';
         try {
             call_user_func($call, $values);
             $trX = $class->getResponse();
             $trX->setBody($class->view->render());
             if ($rqX->isDispatched()) {
-                $response = '' . $trX->send() . '';
+                $response = $trX->send();
             } else {
                 $response = $trX->getBody();
             }
         } catch (\Exception $e) {
             throw $e;
-        } finally {
-            if (isset($e)) {
-                if (function_exists('http_response_code')) {
-                    http_response_code('404');
-                }
-                $prot = (!isset($_SERVER['SERVER_PROTOCOL'])) ? 'HTTP 1.0' : $_SERVER['SERVER_PROTOCOL'];
-                header($prot . ' 404 Not Found');
-                $response = '<h1>Application Error please cry as loud as you can and call your mommy!</h1>';
-                if (defined('APPLICATION_ENV') && 'local' == APPLICATION_ENV && isset($e)) {
-                    $response .= '<h2>' . $e->getMessage() .  '</h2>' .
-                        'Stack-Trace:' . PHP_EOL . '<pre>  ' .
-                        str_replace(PHP_EOL, PHP_EOL . '  ', $e->getTraceAsString()) . PHP_EOL . '</pre>' .
-                        PHP_EOL . 'in ' . __FILE__ . ' on line ' . __LINE__;
-                }
-            }
         }
         print $response;
     }
 
-    /**
-     * @param string $uri
-     * @param array $mapping
-     * @param string $module
-     */
-    public static function process($uri, $mapping, $module = 'default')
-    {
-        $basePath = (isset($_SERVER['SCRIPT_NAME']) && $_SERVER['SCRIPT_NAME'] !== '/index.php') ?
-            str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']) : null;
-        $uri = str_replace($basePath, '', $uri);
-        if (empty($uri)) {
-            $uri = '/';
-        }
-        foreach ($mapping as $from => $to) {
-            if (preg_match($from, $uri, $args)) {
-                self::execute($to, $module, $args);
-                break;
-            }
-        }
-        self::execute('Error/noroute', $module, array());
-    }
 }

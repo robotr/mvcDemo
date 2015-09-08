@@ -100,7 +100,7 @@ abstract class ModelAbstract
             if (!empty($this->_config['port'])) {
                 $port = ';' . $this->_config['port'];
             }
-            $dsn = $this->_config['dbtype'] . ':host=' . $port . $dbName;// $this->_config['host'] .
+            $dsn = $this->_config['dbtype'] . ':host=' . $this->_config['host'] . $port . $dbName;
             try {
                 $this->_conn =
                     new \PDO($dsn, $this->_config['user'], $this->_config['pass'], $this->_config['options']);

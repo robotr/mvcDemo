@@ -43,16 +43,19 @@ class Handler
     public function __construct($config = array())
     {
         $this->_config = $config;
+        // callback for set_error_handler/set_exception_handler
         $this->_callable = function() {
             $args = func_get_args();
             if (($fh = fopen($this->_fileName, 'a'))) {
                 if (5 == count($args)) {
+                    // Error-Handling
                     if (isset($args[4])) {
                         if (isset($args[4]['e']) && $args[4]['e'] instanceof \Exception) {
+                            // caught Exception
                             /** @var \Exception $exc */
                             $exc = $args[4]['e'];
                             unset($args[4]['e']);
-                            $source = array_shift($args[4]);
+                            // todo - ? $source = array_shift($args[4]); ?
                             $args[0] = Type::E_USER_EXCEPTION;
                             $args[1] = get_class($exc) . ': ' . $exc->getMessage();
                             $args[2] = $exc->getFile();
@@ -63,17 +66,17 @@ class Handler
                             unset($args[4]);
                         }
                     }
-                } elseif (1 == count($args)) {
-                    if ($args[0] instanceof \Exception) {
-                        /** @var \Exception $exc */
-                        $exc = array_shift($args);
-                        $args[0] = Type::E_USER_CATCHABLE;
-                        $args[1] = 'Uncaught ' . get_class($exc) . ': ' . $exc->getMessage();
-                        $args[2] = $exc->getFile();
-                        $args[3] = $exc->getLine();
-                        $args[4] = $exc->getTraceAsString();
-                        $this->_keys[]  = 'trace';
-                    }
+                } elseif (1 == count($args) && $args[0] instanceof \Exception) {
+                    // Exception-Handling
+                    // todo sanitize method-args
+                    /** @var \Exception $exc */
+                    $exc = array_shift($args);
+                    $args[0] = Type::E_USER_CATCHABLE;
+                    $args[1] = 'Uncaught \'' . get_class($exc) . '\': ' . $exc->getMessage();
+                    $args[2] = $exc->getFile();
+                    $args[3] = $exc->getLine();
+                    $args[4] = $exc->getTraceAsString();
+                    $this->_keys[]  = 'trace';
                 }
                 // create log-message
                 $args = array_combine($this->_keys, $args);
@@ -128,10 +131,10 @@ class Handler
      */
     private function _getTraceMessage($params)
     {
-        return sprintf('[%s] [%s] %s' . PHP_EOL . 'Stack-Trace:' . PHP_EOL . '  ' .
-            '%s' . PHP_EOL . 'in %s on line %s' . PHP_EOL,
-            $params['date'], $params['code'], $params['msg'],
-            str_replace(PHP_EOL, PHP_EOL . '  ', $params['trace']), $params['file'], $params['line']);
+        return sprintf('[%s] [%s] %s in %s on line %s' . PHP_EOL .
+            'Stack-Trace:' . PHP_EOL . '  %s' . PHP_EOL,
+            $params['date'], $params['code'], $params['msg'], $params['file'], $params['line'],
+            str_replace(PHP_EOL, PHP_EOL . '  ', $params['trace']));
     }
 
 }

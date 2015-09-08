@@ -29,14 +29,13 @@ class World
             $db = $dbService->getAdapter();
         } catch (\PDOException $pE) {
             throw $pE;
-        } finally {
-            $sth = null;
-            if (isset($db)) {
-                $sth = $db->prepare('SELECT * FROM Country');
-                /** @var $sth \PDOStatement */
-                if ($sth instanceof \PDOStatement && $sth->execute()) {
-                    $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
-                }
+        }
+        $sth = null;
+        if (isset($db)) {
+            $sth = $db->prepare('SELECT * FROM Country');
+            /** @var $sth \PDOStatement */
+            if ($sth instanceof \PDOStatement && $sth->execute()) {
+                $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
             }
         }
         return $result;

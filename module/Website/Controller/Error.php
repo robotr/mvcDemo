@@ -23,23 +23,28 @@ class Error extends ControllerAbstract
         $viewInit = array('title' => 'Error');
         $this->_model = new Container($this->view, $viewInit);
     }
-
+    // todo - refactor (__call-method?)
     public function noroute()
     {
-        $this->_model->add(array('error' => '<h1>Application Error!</h1><b>Route not Found!</b>'));
-        $this->_model->assignViewVars();
+        $this->_model->add(array('messageH1' => 'Application Error!', 'messageB' => 'Route not Found!'));
+        $this->_model->assignViewVars('error');
     }
 
     public function nocontroller()
     {
-        $this->_model->add(array('error' => '<h1>Application Error!</h1><b>Controller not Found!</b>'));
-        $this->_model->assignViewVars();
+        $this->_model->add(array('messageH1' => 'Application Error!', 'messageB' => 'Controller not Found!'));
+        $this->_model->assignViewVars('error');
     }
 
     public function noaction()
     {
-        $this->_model->add(array('error' => '<h1>Application Error!</h1><b>Action-method not Found!</b>'));
-        $this->_model->assignViewVars();
+        $this->_model->add(array('messageH1' => 'Application Error!', 'messageB' => 'Action-method not Found!'));
+        $this->_model->assignViewVars('error');
     }
 
+    public function internal()
+    {
+        $this->_model->add(array('messageH1' => 'Application Error!', 'messageB' => 'An internal error occurred!'));
+        $this->_model->assignViewVars('error');
+    }
 }

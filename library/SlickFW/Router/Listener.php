@@ -49,6 +49,10 @@ class Listener
                     Route::process(urldecode($uri), self::$routes[$module], $module);
                 } catch(\Exception $e) {
                     throw $e;
+                } finally {
+                    if (isset($e)) {
+                        Route::process('/error/internal', self::$routes[$module], $module);
+                    }
                 }
             }
         }
