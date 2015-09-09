@@ -23,6 +23,7 @@ class Error extends ControllerAbstract
         $viewInit = array('title' => 'Error');
         $this->_model = new Container($this->view, $viewInit);
     }
+
     // todo - refactor (__call-method?)
     public function noroute()
     {

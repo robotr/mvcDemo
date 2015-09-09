@@ -16,11 +16,43 @@ use SlickFW\Request\RequestAbstract;
 class Http extends ResponseAbstract
 {
     /**
+     * @var array
+     */
+    protected $_headers = array();
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(RequestAbstract $request)
     {
         parent::__construct($request);
         $this->setContentType('text/html; charset=UTF-8');
+    }
+
+    /**
+     * set content-type header
+     * @param string $type
+     */
+    public function setContentType($type)
+    {
+        if (!empty($type)) {
+            $type = trim(strip_tags($type));
+        } else {
+            $type = 'text/html; charset=UTF-8';
+        }
+        $this->_headers += array('Content-Type' => $type);
+    }
+
+    /**
+     * flush output-buffer/send response-body/
+     * @todo add http-headers
+     */
+    public function send()
+    {
+        foreach ($this->_headers as $header => $type) {
+
+        }
+
+        return $this->_body;
     }
 }

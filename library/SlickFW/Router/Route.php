@@ -98,6 +98,7 @@ class Route
         $rqX = $class->getRequest();
         $rqX->setModule($module)->setController($controller)
             ->setAction($action)->setDispatched(true);
+        $response = '';
         try {
             call_user_func($call, $values);
             $trX = $class->getResponse();
@@ -109,8 +110,9 @@ class Route
             }
         } catch (\Exception $e) {
             throw $e;
+        } finally {
+            print $response;
         }
-        print $response;
     }
 
 }

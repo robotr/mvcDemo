@@ -16,11 +16,6 @@ use SlickFW\Request\RequestAbstract;
 class ResponseAbstract
 {
     /**
-     * @var array
-     */
-    protected $_headers;
-
-    /**
      * @var mixed
      */
     protected $_body;
@@ -37,21 +32,6 @@ class ResponseAbstract
     public function __construct(RequestAbstract $request)
     {
         $this->_request = $request;
-        $this->_headers = array();
-    }
-
-    /**
-     * set content-type header
-     * @param string $type
-     */
-    public function setContentType($type)
-    {
-        if (!empty($type)) {
-            $type = trim(strip_tags($type));
-        } else {
-            $type = 'text/html; charset=UTF-8';
-        }
-        $this->_headers += array('Content-Type' => $type);
     }
 
     /**
@@ -69,19 +49,6 @@ class ResponseAbstract
      */
     public function getBody()
     {
-        return $this->_body;
-    }
-
-    /**
-     * flush output-buffer/send response-body/
-     * @todo add http-headers
-     */
-    public function send()
-    {
-        foreach ($this->_headers as $header => $type) {
-
-        }
-
         return $this->_body;
     }
 

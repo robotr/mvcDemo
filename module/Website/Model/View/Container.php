@@ -16,13 +16,20 @@ use Website\Model\Db\World;
 
 class Container extends ViewContainer
 {
-
+    /**
+     * fetch countries from DB "World" and Table "Countries"
+     */
     public function getCountries()
     {
-        $db = new World(/*$config[$which]*/);
-        $tableData = $db->getCountries();
-//        $this->add(array('_' . $which => print_r($tableData)));
-        $this->add(array('_testData' => var_export($tableData, true)));
+        $db = new World();
+        try{
+            $tableData = $db->getCountries();
+            $this->add(array('_testData' => var_export($tableData, true)));
+        } catch (\Exception $e) {
+            throw $e;
+        } finally {
+            // nothing
+        }
     }
 
 }
