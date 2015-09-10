@@ -11,8 +11,10 @@
 
 namespace Website\Model\View;
 
+use SlickFW\Error\Type;
 use SlickFW\Mvc\Model\ViewContainer;
 use Website\Model\Db\World;
+use Website\Setup;
 
 class Container extends ViewContainer
 {
@@ -24,11 +26,13 @@ class Container extends ViewContainer
         $db = new World();
         try{
             $tableData = $db->getCountries();
-            $this->add(array('_testData' => var_export($tableData, true)));
         } catch (\Exception $e) {
-            throw $e;
+            $log = Setup::getInstance('Website')->get(array('Logger' => 'file'));
+            $log->error($e, Type::E_USER_EXCEPTION);
         } finally {
-            // nothing
+            if (isset($tableData)) {
+                $this->add(array('_testData' => var_export($tableData, true)));
+            }
         }
     }
 

@@ -34,6 +34,7 @@ class Index extends ControllerAbstract
         $this->_model = new Container($this->view, $viewInit);
         if ($this->_request->getQuery()->count() > 0
             && $this->_request->getQuery()->offsetExists('world')
+            && $this->_request->getQuery()->offsetGet('world') == 1
         ) {
             $this->_model->getCountries();
         }

@@ -51,6 +51,9 @@ class Listener
                     throw $e;
                 } finally {
                     if (isset($e)) {
+                        $sent = headers_sent();
+                        $list = headers_list();
+                        // todo - find out whats causing this case to return only partial response
                         Route::process('/error/internal', self::$routes[$module], $module);
                     }
                 }

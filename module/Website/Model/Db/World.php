@@ -27,8 +27,8 @@ class World
         $dbService = Setup::getInstance('Website')->get(array('Database' => 'default'));
         try {
             $db = $dbService->getAdapter();
-        } catch (\PDOException $pE) {
-            throw $pE;
+        } catch (\Exception $e) {
+            throw $e;
         }
         $sth = null;
         if (isset($db)) {

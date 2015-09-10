@@ -44,13 +44,15 @@ class Logger
     }
 
     /**
-     * log an error
+     * log an error/caught exception
+     * @param string $message
+     * @param int $type
      */
-    public function error($message)
+    public function error($message, $type = E_ERROR)
     {
         $trace  = debug_backtrace();
         $callee = current($trace);
-        $this->log($message, $callee['file'], $callee['line']);
+        $this->log($message, $callee['file'], $callee['line'], $type);
     }
 
     /**
@@ -63,6 +65,7 @@ class Logger
      */
     public function log($message, $file, $line, $type = E_ERROR)
     {
+        $this->_fileName = '';
         if (!empty($this->_fileName) && ($fh = fopen($this->_fileName, 'a'))) {
             fwrite($fh, sprintf('[' . date('r') . '] [' . Type::getName($type) .
                 '] %s in %s on line %s' . PHP_EOL, $message, $file, $line));

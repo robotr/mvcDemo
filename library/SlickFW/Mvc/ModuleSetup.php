@@ -11,11 +11,15 @@
 
 namespace SlickFW\Mvc;
 
+use SlickFW\Error\Handler;
 use SlickFW\Mvc\Model\ServiceRegister;
 use SlickFW\Router\Listener;
 
 abstract class ModuleSetup implements ModuleInterface
 {
+    /**
+     * @var string
+     */
     protected $_moduleName;
 
     /**
@@ -32,6 +36,11 @@ abstract class ModuleSetup implements ModuleInterface
      * @var string
      */
     protected $_defaultModule = false;
+
+    /**
+     * @var Handler
+     */
+    protected $_handler;
 
     /**
      * ctor
@@ -137,9 +146,11 @@ abstract class ModuleSetup implements ModuleInterface
      */
     private function _setupErrorhandler()
     {
-        $errorHandler = $this->_serviceRegister->getService(array('Errorhandler' => 'config'));
-        if (!is_null($errorHandler) && method_exists($errorHandler, 'initHandler')) {
-            call_user_func(array($errorHandler, 'initHandler'));
+        if (!isset($this->_handler)) {
+            $errorHandler = $this->_serviceRegister->getService(array('Errorhandler' => 'config'));
+            if (!is_null($errorHandler) && method_exists($errorHandler, 'initHandler')) {
+                $this->_handler = call_user_func(array($errorHandler, 'initHandler'));
+            }
         }
     }
 

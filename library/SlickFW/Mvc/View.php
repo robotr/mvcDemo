@@ -363,9 +363,9 @@ class View
      */
     private function _hasScript()
     {
-        $scriptFIle = $this->_scriptPath . $this->_request->getController() .
+        $scriptFile = $this->_scriptPath . $this->_request->getController() .
             DIRECTORY_SEPARATOR . $this->_request->getAction() . $this->_scriptSuffix;
-        return (isset($this->_scriptPath) && isset($this->_scriptSuffix) && file_exists($scriptFIle));
+        return (isset($this->_scriptPath) && isset($this->_scriptSuffix) && file_exists($scriptFile));
     }
 
     /**

@@ -110,6 +110,7 @@ class Handler
             set_error_handler(NULL);
             set_exception_handler(NULL);
         }
+        return $this;
     }
 
     /**
