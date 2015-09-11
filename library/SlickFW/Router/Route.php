@@ -19,6 +19,7 @@ class Route
 {
 
     /**
+     * match the requested URI against the defined set of routes for this module
      * @param string $uri
      * @param array $mapping
      * @param string $module
@@ -45,6 +46,7 @@ class Route
     }
 
     /**
+     * try to call the matched Routes defined Controller/Action
      * @param string $to
      * @param string $module
      * @param array $args
@@ -113,7 +115,10 @@ class Route
             throw $e;
         } finally {
             if (!empty($response)) {
-                print $response;
+                echo $response;
+            } elseif (isset($e) && 'Error/internal' !== $to) {
+                // todo try responding with Error-Page
+                Route::execute('Error/internal', $module, array());
             }
         }
     }

@@ -47,12 +47,17 @@ class Logger
      * log an error/caught exception
      * @param string $message
      * @param int $type
+     * @throws \Exception
      */
     public function error($message, $type = E_ERROR)
     {
         $trace  = debug_backtrace();
         $callee = current($trace);
-        $this->log($message, $callee['file'], $callee['line'], $type);
+        try {
+            $this->log($message, $callee['file'], $callee['line'], $type);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     /**

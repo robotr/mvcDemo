@@ -32,6 +32,8 @@ class Container extends ViewContainer
         } finally {
             if (isset($tableData)) {
                 $this->add(array('_testData' => var_export($tableData, true)));
+            } else {
+                $this->add(array('_testData' => var_export(array('error' => 'Database-Error'), true)));
             }
         }
     }

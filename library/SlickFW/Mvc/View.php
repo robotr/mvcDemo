@@ -139,7 +139,7 @@ class View
             }
             ob_start();
             $this->renderScript();
-            $this->{$this->_defaultPlaceholder} = ob_get_clean();;
+            $this->{$this->_defaultPlaceholder} = ob_get_clean();
         } else {
             $this->{$this->_defaultPlaceholder} = '';
         }
@@ -158,6 +158,7 @@ class View
 
     /**
      * run the layout-script
+     * todo implement the Layout as an independet View instance !?
      */
     public function renderLayout()
     {

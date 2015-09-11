@@ -10,7 +10,7 @@
 
 namespace SlickFW\Mvc\View\Part;
 
-class PartAbstract
+abstract class PartAbstract
 {
     public function __construct()
     {
