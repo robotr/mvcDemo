@@ -103,6 +103,7 @@ class Handler
             && (is_dir($dir = realpath($this->_config['log_dir'])) || is_dir($dir = $this->_config['log_dir']))
         ) {
             $this->_fileName = $dir . '/' . $this->_logfile;
+            ini_set('error_log', $this->_fileName);
             set_error_handler($this->_callable, $errors);
             set_exception_handler($this->_callable);
         } else {

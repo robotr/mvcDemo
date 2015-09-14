@@ -21,6 +21,8 @@ class Index extends ControllerAbstract
 {
     public function index()
     {
+        /** @var Setup $setup */
+        $setup = Setup::getInstance('Website');
         $viewInit = array(
             'title' => 'Startpage',
             'head1' => 'Welcome Guest!',
@@ -29,7 +31,7 @@ class Index extends ControllerAbstract
             'link2' => array('aText' => 'See the world&hellip;', 'aHref' => '?world=1')
         );
         if (Setup::getInstance('Website')->isDefaultModule()) {
-            $viewInit['defaultModule'] = Setup::getInstance('Website')->get('defaultmodule');
+            $viewInit['defaultModule'] = $setup->get('defaultmodule');
         }
         $this->_model = new Container($this->view, $viewInit);
         if ($this->_request->getQuery()->count() > 0

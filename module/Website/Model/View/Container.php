@@ -27,6 +27,7 @@ class Container extends ViewContainer
         try {
             $tableData = $db->getCountries();
         } catch (\Exception $e) {
+            /** @var \SlickFW\Error\Logger $log */
             $log = Setup::getInstance('Website')->get(array('Logger' => 'file'));
             $log->error($e, Type::E_USER_EXCEPTION);
         } finally {

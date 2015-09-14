@@ -24,8 +24,9 @@ class Setup extends ModuleSetup
      */
     public function run()
     {
-        //*
-        $logger = $this->get(array('Logger' => 'file'));// */
-        Listener::route(__NAMESPACE__);
+        parent::run();
+        /** @var \SlickFW\Error\Logger $logger */
+        $logger = $this->get(array('Logger' => 'file'));
+        $logger->log('"Index/index" finished...Ready to continue!', __FILE__, __LINE__, E_WARNING);
     }
 }

@@ -114,10 +114,10 @@ class Route
         } catch (\Exception $e) {
             throw $e;
         } finally {
-            if (!empty($response)) {
+            if (!empty($response) && !isset($e)) {
                 echo $response;
             } elseif (isset($e) && 'Error/internal' !== $to) {
-                // todo try responding with Error-Page
+                // try responding with error-page
                 Route::execute('Error/internal', $module, array());
             }
         }

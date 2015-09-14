@@ -74,6 +74,13 @@ abstract class ModuleSetup implements ModuleInterface
         }
     }
 
+    public function run()
+    {
+        $class = explode('\\', get_class($this));
+        $module = array_shift($class);
+        Listener::route($module);
+    }
+
     /**
      * accessor for registered module-services and other general settings
      * @param string|array $service

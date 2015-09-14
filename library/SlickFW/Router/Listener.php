@@ -21,6 +21,7 @@ class Listener
     public static $routes = array();
 
     /**
+     * add routes from config f.i. through \SlickFW\Mvc\ModuleSetup::_initRoutes()
      * @param string $module
      * @param $route
      * @param string $path

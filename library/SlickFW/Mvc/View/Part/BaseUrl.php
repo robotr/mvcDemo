@@ -21,7 +21,7 @@ class BaseUrl extends PartAbstract
             str_replace('index.php', '', $_SERVER['SCRIPT_NAME']) : null;
         $server = (isset($_SERVER['REQUEST_SCHEME'])) ? $_SERVER['REQUEST_SCHEME'] : 'http';
         $server .= '://' . $_SERVER['HTTP_HOST'];
-        return $server . $basePath;
+        return $server . (empty($basePath)) ? '/' : $basePath;
     }
 
     /**
