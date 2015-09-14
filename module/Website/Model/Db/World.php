@@ -17,7 +17,6 @@ class World
 {
     /**
      * @throws \Exception
-     * @throws \PDOException
      * @return array
      */
     public function getCountries()

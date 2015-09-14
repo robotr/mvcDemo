@@ -17,7 +17,7 @@ class Db extends DbAbstract
 {
     /**
      * check for connection status and return a new PDO instance in case of success
-     * @throws \PDOException
+     * @throws \Exception
      * @return \PDO
      */
     public function getAdapter()
@@ -25,7 +25,7 @@ class Db extends DbAbstract
         if (!$this->_conn instanceof \PDO || !$this->_state) {
             try {
                 return $this->_getConnection();
-            }  catch (\PDOException $e) {
+            }  catch (\Exception $e) {
                 throw $e;
             }
         }

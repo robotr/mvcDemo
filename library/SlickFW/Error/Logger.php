@@ -72,6 +72,13 @@ class Logger
     {
         $this->_fileName = '';
         if (!empty($this->_fileName) && ($fh = fopen($this->_fileName, 'a'))) {
+            if ($message instanceof \Exception) {
+                $eClass = get_class($message);
+                $eMessage  = $eClass . ' with messeage: ' . $message->getMessage() . ' Code: ' . $message->getCode()
+                    . PHP_EOL . 'Stack-Trace' . PHP_EOL . '  ';
+                $eMessage .= str_replace(PHP_EOL, PHP_EOL . '  ', $message->getTraceAsString());
+                $message = $eMessage;
+            }
             fwrite($fh, sprintf('[' . date('r') . '] [' . Type::getName($type) .
                 '] %s in %s on line %s' . PHP_EOL, $message, $file, $line));
             fclose($fh);

@@ -49,12 +49,15 @@ abstract class ModelAbstract
      * ctor abstract database-class to load the concrete driver-class with
      * @param array $conf
      * @param string $dbName
+     * @throws \Exception
      * @return ModelAbstract
      */
     public function __construct($conf, $dbName = '')
     {
         if (!empty($conf)) {
             $this->_config = $conf;
+        } else {
+            throw new \Exception('Database-Error: No configuration found!', 1005);
         }
     }
 
@@ -77,7 +80,7 @@ abstract class ModelAbstract
 
     /**
      * retrieve the database-connection
-     * @throws \PDOException
+     * @throws \Exception
      * @return \PDO
      */
     protected function _getConnection()
@@ -104,7 +107,7 @@ abstract class ModelAbstract
             try {
                 $this->_conn =
                     new \PDO($dsn, $this->_config['user'], $this->_config['pass'], $this->_config['options']);
-            } catch (\PDOException $e) {
+            } catch (\Exception $e) {
                 throw $e;
             }
         }

@@ -24,7 +24,7 @@ class Container extends ViewContainer
     public function getCountries()
     {
         $db = new World();
-        try{
+        try {
             $tableData = $db->getCountries();
         } catch (\Exception $e) {
             $log = Setup::getInstance('Website')->get(array('Logger' => 'file'));

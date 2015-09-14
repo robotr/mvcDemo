@@ -72,7 +72,7 @@ class Handler
                     /** @var \Exception $exc */
                     $exc = array_shift($args);
                     $args[0] = Type::E_USER_CATCHABLE;
-                    $args[1] = 'Uncaught \'' . get_class($exc) . '\': ' . $exc->getMessage();
+                    $args[1] = 'Uncaught ' . get_class($exc) . ': ' . $exc->getMessage();
                     $args[2] = $exc->getFile();
                     $args[3] = $exc->getLine();
                     $args[4] = $exc->getTraceAsString();

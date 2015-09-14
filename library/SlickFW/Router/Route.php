@@ -8,7 +8,7 @@
  * SlickFW\Router\Route
  * A routing class for use with your controllers that doesn't use inheritance.
  *
- * original author Erik M Schulz
+ * original @author Erik M Schulz
  */
 
 namespace SlickFW\Router;
