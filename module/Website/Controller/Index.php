@@ -30,9 +30,6 @@ class Index extends ControllerAbstract
             'link1' => array('aText' => 'Stay in contact&hellip;', 'aHref' => 'contact'),
             'link2' => array('aText' => 'See the world&hellip;', 'aHref' => '?world=1')
         );
-        if (Setup::getInstance('Website')->isDefaultModule()) {
-            $viewInit['defaultModule'] = $setup->get('defaultmodule');
-        }
         $this->_model = new Container($this->view, $viewInit);
         if ($this->_request->getQuery()->count() > 0
             && $this->_request->getQuery()->offsetExists('world')

@@ -73,13 +73,14 @@ class Logger
         if (!empty($this->_fileName) && ($fh = fopen($this->_fileName, 'a'))) {
             if ($message instanceof \Exception) {
                 $eClass = get_class($message);
-                $eMessage  = $eClass . ' with messeage: ' . $message->getMessage() . ' Code: ' . $message->getCode()
-                    . PHP_EOL . 'Stack-Trace' . PHP_EOL . '  ';
+                $eMessage  = $eClass . ' with message: "' . $message->getMessage() .
+                    ' Code: ' . $message->getCode() . '"' . PHP_EOL . 'in ' . $message->getFile() .  ' on line ' .
+                    $message->getLine() . PHP_EOL . 'Stack-Trace' . PHP_EOL . '  ';
                 $eMessage .= str_replace(PHP_EOL, PHP_EOL . '  ', $message->getTraceAsString());
                 $message = $eMessage;
             }
-            fwrite($fh, sprintf('[' . date('r') . '] [' . Type::getName($type) .
-                '] %s in %s on line %s' . PHP_EOL, $message, $file, $line));
+            fwrite($fh, sprintf('[' . date('r') . '] [' . Type::getName($type) . '] %s in %s on line %s' .
+                PHP_EOL, $message, $file, $line));
             fclose($fh);
         } else {
             throw new \Exception('No Log-File specified or file not accessible!');
