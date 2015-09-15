@@ -70,6 +70,7 @@ class Logger
      */
     public function log($message, $file, $line, $type = E_ERROR)
     {
+        $this->_fileName = '';
         if (!empty($this->_fileName) && ($fh = fopen($this->_fileName, 'a'))) {
             if ($message instanceof \Exception) {
                 $eClass = get_class($message);

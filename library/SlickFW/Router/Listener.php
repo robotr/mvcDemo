@@ -23,7 +23,7 @@ class Listener
     /**
      * add routes from config f.i. through \SlickFW\Mvc\ModuleSetup::_initRoutes()
      * @param string $module
-     * @param $route
+     * @param string $route
      * @param string $path
      * @param bool $overwrite
      * @internal param string $routeName

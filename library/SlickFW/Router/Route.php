@@ -112,11 +112,12 @@ class Route
                 $response = $trX->getBody();
             }
         } catch (\Exception $e) {
-            throw $e;
+            null;
         } finally {
             if (!empty($response) && !isset($e)) {
                 echo $response;
             } elseif (isset($e) && 'Error/internal' !== $to) {
+                error_log($e);
                 // try responding with error-page
                 Route::execute('Error/internal', $module, array());
             }
