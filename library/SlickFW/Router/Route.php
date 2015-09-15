@@ -64,6 +64,7 @@ class Route
         $class = null;
         $values = array();
         /** @var ControllerAbstract $class */
+        // check if a controller-class exists
         if (class_exists($className)) {
             $class = new $className;
             if (count($keys)) {
@@ -82,11 +83,10 @@ class Route
             $action = 'nocontroller';
             $class = new $className;
         }
-
+        // check if action-method exists
         if (method_exists($className, $action)) {
             $call = array($class, $action);
         }
-
         if (!isset($call) && class_exists($module . '\Controller\Error')) {
             $className = $module . '\Controller\Error';
             $controller = 'Error';
@@ -96,7 +96,7 @@ class Route
         } elseif (!class_exists($module . '\Controller\Error')) {
             throw new \Exception('Method "' . $action . '" not found in Class "' . $className . '"!');
         }
-
+        // apply the routes specific request-params
         $rqX = $class->getRequest();
         $rqX->setModule($module)->setController($controller)
             ->setAction($action)->setDispatched(true);

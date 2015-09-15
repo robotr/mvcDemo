@@ -12,6 +12,7 @@
 namespace SlickFW\Service;
 
 use SlickFW\Service\Db\ModelAbstract as DbAbstract;
+use SlickFW\Service\Db\Table\Query;
 
 class Db extends DbAbstract
 {
@@ -30,6 +31,33 @@ class Db extends DbAbstract
             }
         }
         return $this->_conn;
+    }
+
+    /**
+     * generate a table-select statement
+     * @param string $from
+     * @param array|string $what
+     * @return Query
+     */
+    public function select($from, $what = Query::WILDCARD)
+    {
+        $query = Query::getInstance();
+        if (!empty($from)) {
+            $query->queryString = 'SELECT ';
+            if (!is_array($what) && is_string($what)) {
+                 $query->queryString .= $this->_conn->quote($what) . ' FROM ' . $this->_conn->quote($from);
+            } else {
+                if (empty($what)) {
+                    return $this->select($from);
+                }
+                foreach ($what as $num => $col) {
+                    $query->queryString .= $this->_conn->quote($col);
+                    $query->queryString .= ($num + 1 < count($what)) ? ', ' : null;
+                }
+                $query->queryString .= ' FROM ' . $this->_conn->quote($from);
+            }
+        }
+        return $query;
     }
 
 }
