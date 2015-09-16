@@ -21,14 +21,13 @@ class Index extends ControllerAbstract
 {
     public function index()
     {
-        /** @var Setup $setup */
-        $setup = Setup::getInstance('Website');
         $viewInit = array(
             'title' => 'Startpage',
             'head1' => 'Welcome Guest!',
             'head2' => 'You are on the Startpage',
-            'link1' => array('aText' => 'Stay in contact&hellip;', 'aHref' => 'contact'),
-            'link2' => array('aText' => 'See the world&hellip;', 'aHref' => '?world=1')
+            'link1' => array('aText' => 'Stay in contact&hellip;', 'aHref' => $this->view->baseUrl() . 'contact'),
+            'link2' => array('aText' => 'See the world&hellip;', 'aHref' => $this->view->baseUrl() . '?world=1'),
+            'link3' => array('aText' => 'Browse the Albums&hellip;', 'aHref' => $this->view->baseUrl() . '?albums=1')
         );
         $this->_model = new Container($this->view, $viewInit);
         if ($this->_request->getQuery()->count() > 0
@@ -36,6 +35,12 @@ class Index extends ControllerAbstract
             && $this->_request->getQuery()->offsetGet('world') == 1
         ) {
             $this->_model->getCountries();
+        }
+        if ($this->_request->getQuery()->count() > 0
+            && $this->_request->getQuery()->offsetExists('albums')
+            && $this->_request->getQuery()->offsetGet('albums') == 1
+        ) {
+            $this->_model->getAlbums();
         }
         $this->_model->assignViewVars();
     }

@@ -117,6 +117,7 @@ class Route
             if (!empty($response) && !isset($e)) {
                 echo $response;
             } elseif (isset($e) && 'Error/internal' !== $to) {
+                // log Exception
                 error_log($e);
                 // try responding with error-page
                 Route::execute('Error/internal', $module, array());

@@ -15,7 +15,7 @@ namespace SlickFW\Router;
 class Listener
 {
     /**
-     * from modules' init-class assigned routes
+     * from modules' setup-class assigned routes
      * @var array
      */
     public static $routes = array();

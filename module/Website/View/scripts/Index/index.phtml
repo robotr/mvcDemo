@@ -12,6 +12,9 @@
 <?php } ?><br>
 <?php if (is_array($this->link2)) { ?>
 <a id="link2" href="<?php echo $this->link2['aHref'] ?>" ><?php echo $this->link2['aText'] ?></a>
+<?php } ?><br>
+<?php if (is_array($this->link3)) { ?>
+<a id="link3" href="<?php echo $this->link3['aHref'] ?>" ><?php echo $this->link3['aText'] ?></a>
 <?php } ?>
 <pre><?php echo (isset($this->testData)) ? $this->testData : null ?></pre>
 <div id="contact"></div>

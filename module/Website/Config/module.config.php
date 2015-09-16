@@ -35,6 +35,17 @@ return array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                 PDO::MYSQL_ATTR_USE_BUFFERED_QUERY
             )
+        ),
+        'other' => array(
+            'dbtype'  => 'mysql',
+            'host'    => '10.0.2.2',
+            'user'    => 'root',
+            'pass'    => 'password',
+            'dbname'  => 'albums',
+            'options' => array(
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                PDO::MYSQL_ATTR_USE_BUFFERED_QUERY
+            )
         )
     ),
     'View' => array(
