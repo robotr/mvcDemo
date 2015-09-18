@@ -8,13 +8,13 @@
 <h1><?php echo $this->head1 ?></h1>
 <h2><?php echo $this->head2 ?></h2>
 <?php if (is_array($this->link1)) { ?>
-<a id="link1" href="<?php echo $this->link1['aHref'] ?>" ><?php echo $this->link1['aText'] ?></a>
+<a class="link" id="link1" href="<?php echo $this->link1['aHref'] ?>" ><?php echo $this->link1['aText'] ?></a>
 <?php } ?><br>
 <?php if (is_array($this->link2)) { ?>
-<a id="link2" href="<?php echo $this->link2['aHref'] ?>" ><?php echo $this->link2['aText'] ?></a>
+<a class="link" id="link2" href="<?php echo $this->link2['aHref'] ?>" ><?php echo $this->link2['aText'] ?></a>
 <?php } ?><br>
 <?php if (is_array($this->link3)) { ?>
-<a id="link3" href="<?php echo $this->link3['aHref'] ?>" ><?php echo $this->link3['aText'] ?></a>
+<a class="link" id="link3" href="<?php echo $this->link3['aHref'] ?>" ><?php echo $this->link3['aText'] ?></a>
 <?php } ?>
-<pre><?php echo (isset($this->testData)) ? $this->testData : null ?></pre>
+<?php echo (isset($this->testData)) ? '<pre>' . $this->testData . '</pre>' : null ?>
 <div id="contact"></div>

@@ -8,16 +8,28 @@ $baseUrl = $this->baseUrl();
 ?>
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
-    <title><?php echo $this->title ?></title>
-    <link href="<?php echo $baseUrl ?>css/base.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<?php echo $baseUrl ?>image/favicon.ico" rel="shortcut icon" type="image/x-icon">
-</head>
-<body>
-    <div id="content">
-        <?php echo $this->error ?>
-    </div>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+        <title><?php echo $this->title ?></title>
+        <link href="<?php echo $baseUrl ?>css/base.css" media="screen" rel="stylesheet" type="text/css">
+        <link href="<?php echo $baseUrl ?>image/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    </head>
+    <body>
+        <header class="heading">
+            <nav id="main-nav">
+                <span><a class="home-link" href="<?php echo $baseUrl ?>">HOME</a></span>
+            </nav>
+        </header>
+        <main>
+            <div id="content">
+                <?php echo $this->error ?>
+            </div>
+        </main>
+        <footer class="footer">
+            <nav id="footer-nav">
+                <span></span>
+            </nav>
+        </footer>
+    </body>
 </html>
