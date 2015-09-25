@@ -15,19 +15,19 @@ namespace Website\Controller;
 
 use SlickFW\Mvc\Controller\ControllerAbstract;
 use Website\Model\View\Container;
-use Website\Setup;
 
 class Index extends ControllerAbstract
 {
     public function index()
     {
+        $baseUrl = $this->view->baseUrl();
         $viewInit = array(
             'title' => 'Startpage',
             'head1' => 'Welcome Guest!',
             'head2' => 'You are on the Startpage',
-            'link1' => array('aText' => 'Stay in contact&hellip;', 'aHref' => $this->view->baseUrl() . 'contact'),
-            'link2' => array('aText' => 'See the world&hellip;', 'aHref' => $this->view->baseUrl() . '?world=1'),
-            'link3' => array('aText' => 'Browse the Albums&hellip;', 'aHref' => $this->view->baseUrl() . '?albums=1')
+            'link1' => array('aText' => 'Stay in contact&hellip;', 'aHref' => $baseUrl . 'contact'),
+            'link2' => array('aText' => 'See the world&hellip;', 'aHref' => $baseUrl . '?world=1'),
+            'link3' => array('aText' => 'Browse the Albums&hellip;', 'aHref' => $baseUrl . '?albums=1')
         );
         $this->_model = new Container($this->view, $viewInit);
         if ($this->_request->getQuery()->count() > 0
