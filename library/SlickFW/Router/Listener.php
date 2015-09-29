@@ -46,7 +46,7 @@ class Listener
         if (array_key_exists('REQUEST_URI', $_SERVER) && array_key_exists('QUERY_STRING', $_SERVER)) {
             $uri = str_replace('?' . $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
             if (!empty($uri) && isset(self::$routes[$module])) {
-                Route::process(urldecode($uri), self::$routes[$module], $module);
+                Route::match(urldecode($uri), self::$routes[$module], $module);
             }
         }
     }

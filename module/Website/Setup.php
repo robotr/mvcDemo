@@ -20,13 +20,14 @@ use SlickFW\Router\Listener;
 class Setup extends ModuleSetup
 {
     /**
-     * @return void
-     */
+     * setup module-specific requirements here
+     * @inheritdoc
+
     public function run()
     {
-        parent::run();
+        parent::run(); */
         /** @var \SlickFW\Error\Logger $logger */
         /*$logger = $this->get(array('Logger' => 'file'));
-        $logger->log('"Index/index" finished...Ready to continue!', __FILE__, __LINE__, E_WARNING);*/
-    }
+        $logger->log('"Index/index" finished...Ready to continue!', __FILE__, __LINE__, E_WARNING);
+    }*/
 }

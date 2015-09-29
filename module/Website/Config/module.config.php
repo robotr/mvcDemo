@@ -59,10 +59,21 @@ return array(
         )
     ),
     'routes' => array(
-        '#^/$#i'                     => 'Index/index',
-        '#^/([a-zA-Z0-9]*)$#i'       => 'Index/:action',
-        '#^/error/([a-zA-Z0-9]*)$#i' => 'Error/:action',
-        '#^/([a-zA-Z0-9]*)/(.*)$#i'  => ':Controller/:action',
+        '#^/$#i'                     => array(
+            'name' => 'Index/index',
+            'type' => 'SlickFW\Router\Route\Regex'),
+        '#^/([a-zA-Z0-9]*)$#i'       => array(
+            'name' => 'Index/:action',
+            'type' => 'SlickFW\Router\Route\Regex'),
+        '/imprint'                   => array(
+            'name' => 'Index/imprint',
+            'type' => 'SlickFW\Router\Route\Simple'),
+        '#^/error/([a-zA-Z0-9]*)$#i' => array(
+            'name' => 'Error/:action',
+            'type' => 'SlickFW\Router\Route\Regex'),
+        '#^/([a-zA-Z0-9]*)/(.*)$#i'  => array(
+            'name' => ':Controller/:action',
+            'type' => 'SlickFW\Router\Route\Regex'),
     ),
     'defaultmodule' => 'Website'
 );

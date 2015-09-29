@@ -9,6 +9,7 @@
  * A routing class for use with your controllers that doesn't use inheritance.
  *
  * original @author Erik M Schulz
+ * @package SlickFW\Router
  */
 
 namespace SlickFW\Router;
@@ -17,14 +18,13 @@ use SlickFW\Mvc\Controller\ControllerAbstract;
 
 class Route
 {
-
     /**
-     * match the requested URI against the defined set of routes for this module
-     * @param string $uri
-     * @param array $mapping
+     * try matching the request-uri with any defined routes
+     * @param $uri
+     * @param $mapping
      * @param string $module
      */
-    public static function process($uri, $mapping, $module = 'default')
+    public static function match($uri, $mapping, $module = 'default')
     {
         $basePath = (isset($_SERVER['SCRIPT_NAME']) && $_SERVER['SCRIPT_NAME'] !== '/index.php') ?
             str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']) : null;
@@ -34,9 +34,10 @@ class Route
         }
         $matched = false;
         foreach ($mapping as $from => $to) {
-            if (preg_match($from, $uri, $args)) {
-                self::execute($to, $module, $args);
-                $matched = true;
+            $to['uri'] = $uri;
+            $matched = $to['type']::process($from, $to, $module);
+            if ($matched) {
+                self::execute($to['name'], $module, $matched);
                 break;
             }
         }
@@ -46,13 +47,13 @@ class Route
     }
 
     /**
-     * try to call the matched Routes defined Controller/Action
-     * @param string $to
-     * @param string $module
-     * @param array $args
+     * try to call the matched Routes' defined Controller/Action
+     * @param string $to - combined definition of the rout to its controller/action
+     * @param string $module - current module used for processing the route
+     * @param array $args - possible additional arguments to pass to the specific route
      * @throws \Exception
      */
-    private static function execute($to, $module, $args)
+    public static function execute($to, $module, $args = array())
     {
         $keys = explode('/', $to);
         $controller = $className = array_shift($keys);
@@ -120,9 +121,8 @@ class Route
                 // log Exception
                 error_log($e);
                 // try responding with error-page
-                Route::execute('Error/internal', $module, array());
+                self::execute('Error/internal', $module, array());
             }
         }
     }
-
 }

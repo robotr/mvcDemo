@@ -53,4 +53,16 @@ class Index extends ControllerAbstract
         }
     }
 
+    public function imprint()
+    {
+        $viewInit = array(
+            'title' => 'About Us',
+            'head1' => 'Imprint',
+            'head2' => 'You are looking at the imprint of the website',
+        );
+        $this->_model = new Container($this->view, $viewInit);
+
+        $this->_model->assignViewVars();
+    }
+
 }

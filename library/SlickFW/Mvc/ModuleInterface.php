@@ -14,6 +14,7 @@ namespace SlickFW\Mvc;
 interface ModuleInterface
 {
     /**
+     * final setup-step of the the current module-instance before route-dispatching begins
      * @return void
      */
     public function run();

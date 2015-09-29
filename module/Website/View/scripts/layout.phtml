@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 /**
  * layout.phtml
@@ -6,7 +7,6 @@
  */
 $baseUrl = $this->baseUrl();
 ?>
-<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -19,7 +19,9 @@ $baseUrl = $this->baseUrl();
     <body>
         <header class="heading">
             <nav id="main-nav">
-                <span><a class="home-link" href="<?php echo $baseUrl ?>">HOME</a></span>
+                <span><a class="home-link" href="<?php echo $baseUrl ?>">HOME</a>
+                    &nbsp;|&nbsp;
+                <a class="about-link" href="<?php echo $baseUrl . 'imprint' ?>">ABOUT US</a></span>
             </nav>
         </header>
         <main>

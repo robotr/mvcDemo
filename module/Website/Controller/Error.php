@@ -5,7 +5,7 @@
  * @author    cloud-nemo
  */
 /**
- * Website\Controller
+ * Website\Controller\Error
  * @package Website\Controller
  */
 
