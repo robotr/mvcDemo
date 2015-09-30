@@ -34,7 +34,15 @@ abstract class ModelAbstract
     {
         if (is_array($data) && !is_int(key($data))) {
             foreach ($data as $name => $value) {
-                $this->_data->offsetSet($name, $value);
+                if (!$this->_data->offsetExists($name)) {
+                    $this->_data->offsetSet($name, $value);
+                } else {
+                    //$this->_data->$name += $value;
+                    $test = $this->_data->offsetGet($name);
+                    if (is_array($test)) {
+                        $this->_data->offsetSet($name, array_merge($test, $value));
+                    }
+                }
             }
         } else {
             $this->_data->append($data);

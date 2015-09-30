@@ -33,9 +33,9 @@ class Container extends ViewContainer
             $log->error($e, Type::E_USER_EXCEPTION);
         } finally {
             if (isset($tableData)) {
-                $this->add(array('_testData' => var_export($tableData, true)));
+                $this->add(array('_testData' => $tableData));
             } else {
-                $this->add(array('_testData' => var_export(array('error' => 'Database-Error'), true)));
+                $this->add(array('_testData' => array('error' => 'Database-Error')));
             }
         }
     }
@@ -51,9 +51,9 @@ class Container extends ViewContainer
             $log->error($e, Type::E_USER_EXCEPTION);
         } finally {
             if (isset($tableData)) {
-                $this->add(array('_testData' => var_export($tableData, true)));
+                $this->add(array('_testData' => $tableData));
             } else {
-                $this->add(array('_testData' => var_export(array('error' => 'Database-Error'), true)));
+                $this->add(array('_testData' => array('error' => 'Database-Error')));
             }
         }
     }

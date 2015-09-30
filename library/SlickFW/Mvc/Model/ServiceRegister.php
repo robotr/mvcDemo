@@ -28,7 +28,8 @@ class ServiceRegister extends ModelAbstract
     {
         if (!is_string($service) && is_array($service) && count($service) == 1) {
             foreach ($service as $name => $value) {
-                return ($this->_data->offsetExists($name));
+                return ($this->_data->offsetExists($name)
+                    && isset($this->_data->offsetGet($name)[$value]));
             }
         }
         return ($this->_data->offsetExists($service));
@@ -64,13 +65,20 @@ class ServiceRegister extends ModelAbstract
                 $setup = $this->_data->offsetGet($name);
             }
             if (isset($setup) && isset($setup['class']) && class_exists($setup['class'])) {
-                if (!isset($this->_services[$setup['class']])) {
-                    if (isset($value) && isset($setup[$value])) {
-                        $service = new $setup['class']($setup[$value]);
+                if (isset($value) && (!isset($this->_services[$setup['class']])
+                        || !isset($this->_services[$setup['class']][$value]))
+                ) {
+                    if (isset($setup[$value])) {
+                        if (!isset($this->_services[$setup['class']][$value])) {
+                            $service = new $setup['class']($setup[$value]);
+                            $this->_services[$setup['class']][$value] = $service;
+                        } else {
+                            $service = $this->_services[$setup['class']][$value];
+                        }
                     } else {
                         $service = new $setup['class'];
+                        $this->_services[$setup['class']] = $service;
                     }
-                    $this->_services[$setup['class']] = $service;
                 } else {
                     $service = $this->_services[$setup['class']];
                 }
