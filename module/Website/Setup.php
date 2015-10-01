@@ -15,7 +15,6 @@
 namespace Website;
 
 use SlickFW\Mvc\ModuleSetup;
-use SlickFW\Router\Listener;
 
 class Setup extends ModuleSetup
 {

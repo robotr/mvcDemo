@@ -18,7 +18,7 @@ class Http extends ResponseAbstract
     /**
      * @var array
      */
-    protected $_headers = array();
+    protected $_headers = [];
 
     /**
      * {@inheritdoc}
@@ -40,7 +40,7 @@ class Http extends ResponseAbstract
         } else {
             $type = 'text/html; charset=UTF-8';
         }
-        $this->_headers += array('Content-Type' => $type);
+        $this->_headers += ['Content-Type' => $type];
     }
 
     /**
@@ -49,9 +49,9 @@ class Http extends ResponseAbstract
      */
     public function send()
     {
-        foreach ($this->_headers as $header => $type) {
+       /* foreach ($this->_headers as $header => $type) {
 
-        }
+        }*/
 
         return $this->_body;
     }

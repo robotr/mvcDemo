@@ -51,7 +51,7 @@ abstract class ControllerAbstract
         $className = get_class($this);
         $classArray = explode('\\', $className);
         $module = array_shift($classArray);
-        $this->view = Mvc\ModuleSetup::getInstance($module)->get(array('View' => 'config'));
+        $this->view = Mvc\ModuleSetup::getInstance($module)->get(['View' => 'config']);
         $this->view->setRequest($this->getRequest());
         $this->_model = new Mvc\Model\ViewContainer($this->view);
         $this->init();

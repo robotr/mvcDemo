@@ -16,7 +16,7 @@ abstract class ModelAbstract
     /**
      * @var array
      */
-    protected $_config = array();
+    protected $_config = [];
 
     /**
      * @var \PDO|null
@@ -43,7 +43,7 @@ abstract class ModelAbstract
      * array of supported PDO drivers
      * @var array
      */
-    protected $_supported = array();
+    protected $_supported = [];
 
     /**
      * ctor abstract database-class to load the concrete driver-class with

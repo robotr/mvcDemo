@@ -50,7 +50,7 @@ abstract class ModelAbstract
     }
 
     /**
-     * resets te internal storage and returns the old values if needed
+     * resets the internal storage and returns the old values if needed
      * @return array
      */
     public function reset()

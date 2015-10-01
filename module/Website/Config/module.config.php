@@ -4,76 +4,76 @@
  * @copyright Copyright © 2015 cloud-nemo
  * @author    cloud-nemo
  */
-return array(
-    'Application' => array(
+return [
+    'Application' => [
         'class' => 'Website\Setup'
-    ),
-    'Errorhandler' => array(
+    ],
+    'Errorhandler' => [
         'class' => 'SlickFW\Error\Handler',
-        'config' => array(
+        'config' => [
             'log_level' => error_reporting(),
             'log_dir'   => 'log'
-        ),
-    ),
-    'Logger' => array(
+        ],
+    ],
+    'Logger' => [
         'class'  => 'SlickFW\Error\Logger',
-        'file' => array(
+        'file' => [
             'log_dir' => 'log'
-        ),
-        'database' => array(),
-        'mail' => array()
-    ),
-    'Database' => array(
+        ],
+        'database' => [],
+        'mail' => []
+    ],
+    'Database' => [
         'class'   => 'SlickFW\Service\Db',
-        'default' => array(
+        'default' => [
             'dbtype'  => 'mysql',
             'host'    => '127.0.0.1',
             'user'    => 'root',
             'pass'    => 'password',
             'dbname'  => 'world',
-            'options' => array(
+            'options' => [
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                 PDO::MYSQL_ATTR_USE_BUFFERED_QUERY
-            )
-        ),
-        'other' => array(
+            ]
+        ],
+        'other' => [
             'dbtype'  => 'mysql',
             'host'    => '10.0.2.2',
             'user'    => 'root',
             'pass'    => 'password',
             'dbname'  => 'albums',
-            'options' => array(
+            'options' => [
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                 PDO::MYSQL_ATTR_USE_BUFFERED_QUERY
-            )
-        )
-    ),
-    'View' => array(
+            ]
+        ]
+    ],
+    'View' => [
         'class'  => 'SlickFW\Mvc\View',
-        'config' => array(
+        'config' => [
             'defaultPlaceholder' => 'content',
             'defaultLayout'      => dirname(__DIR__) . '/View/scripts/',
             'scriptPath'         => dirname(__DIR__) . '/View/scripts/',
             'scriptSuffix'       => '.phtml',
             'useStreamWrapper'   => false,
-        )
-    ),
-    'routes' => array(
-        '#^/$#i'                     => array(
+        ]
+    ],
+    'routes' => [
+        '#^/$#i'                     => [
             'name' => 'Index/index',
-            'type' => 'SlickFW\Router\Route\Regex'),
-        '#^/([a-zA-Z0-9]*)$#i'       => array(
+            'type' => 'SlickFW\Router\Route\Regex'],
+        '#^/([a-zA-Z0-9]*)$#i'       => [
             'name' => 'Index/:action',
-            'type' => 'SlickFW\Router\Route\Regex'),
-        '/imprint'                   => array(
+            'type' => 'SlickFW\Router\Route\Regex'],
+        '/imprint'                   => [
             'name' => 'Index/imprint',
-            'type' => 'SlickFW\Router\Route\Simple'),
-        '#^/error/([a-zA-Z0-9]*)$#i' => array(
+            'type' => 'SlickFW\Router\Route\Simple'],
+        '#^/error/([a-zA-Z0-9]*)$#i' => [
             'name' => 'Error/:action',
-            'type' => 'SlickFW\Router\Route\Regex'),
-        '#^/([a-zA-Z0-9]*)/(.*)$#i'  => array(
+            'type' => 'SlickFW\Router\Route\Regex'],
+        '#^/([a-zA-Z0-9]*)/(.*)$#i'  => [
             'name' => ':Controller/:action',
-            'type' => 'SlickFW\Router\Route\Regex'),
-    ),
+            'type' => 'SlickFW\Router\Route\Regex'],
+    ],
     'defaultmodule' => 'Website'
-);
+];

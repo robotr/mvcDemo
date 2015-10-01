@@ -34,13 +34,13 @@ class Handler
     /**
      * @var array
      */
-    protected $_keys = array('code', 'msg', 'file', 'line');
+    protected $_keys = ['code', 'msg', 'file', 'line'];
 
     /**
      * ctor
      * @param array $config
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         $this->_config = $config;
         // callback for set_error_handler/set_exception_handler

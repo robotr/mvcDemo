@@ -18,7 +18,7 @@ class Listener
      * from modules' setup-class assigned routes
      * @var array
      */
-    public static $routes = array();
+    public static $routes = [];
 
     /**
      * add routes from config f.i. through \SlickFW\Mvc\ModuleSetup::_initRoutes()
@@ -26,7 +26,6 @@ class Listener
      * @param string $route
      * @param string $path
      * @param bool $overwrite
-     * @internal param string $routeName
      */
     public static function add($module, $route, $path, $overwrite = false)
     {

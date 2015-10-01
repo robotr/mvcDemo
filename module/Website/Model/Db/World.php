@@ -21,9 +21,9 @@ class World
      */
     public function getCountries()
     {
-        $result = array();
+        $result = [];
         /** @var \SlickFW\Service\Db $dbService */
-        $dbService = Setup::getInstance('Website')->get(array('Database' => 'default'));
+        $dbService = Setup::getInstance('Website')->get(['Database' => 'default']);
         try {
             $db = $dbService->getAdapter();
         } catch (\Exception $e) {
@@ -31,7 +31,8 @@ class World
         }
         $sth = null;
         if (isset($db)) {
-            $sth = $db->prepare('SELECT * FROM Country');//$dbService->select('Country', array('Name', 'Continent', 'Region'))->assemble());
+        //$dbService->select('Country', array('Name', 'Continent', 'Region'))->assemble());
+            $sth = $db->prepare('SELECT * FROM Country');
             /** @var $sth \PDOStatement */
             if ($sth instanceof \PDOStatement && $sth->execute()) {
                 $result = $sth->fetchAll(\PDO::FETCH_ASSOC);

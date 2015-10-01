@@ -58,14 +58,14 @@ class Http extends RequestAbstract
      */
     public function __construct()
     {
-        $this->_post    = new \ArrayObject((isset($_POST)) ? $_POST : array());
-        $this->_query   = new \ArrayObject((isset($_GET)) ? $_GET : array());
-        $this->_request = new \ArrayObject((isset($_REQUEST)) ? $_REQUEST : array());
-        $this->_server  = new \ArrayObject((isset($_SERVER)) ? $_SERVER : array());
+        $this->_post    = new \ArrayObject((isset($_POST)) ? $_POST : []);
+        $this->_query   = new \ArrayObject((isset($_GET)) ? $_GET : []);
+        $this->_request = new \ArrayObject((isset($_REQUEST)) ? $_REQUEST : []);
+        $this->_server  = new \ArrayObject((isset($_SERVER)) ? $_SERVER : []);
         return $this;
     }
 
-    /** GETTER */
+    /* GETTER */
 
     public function getModule()
     {
@@ -115,7 +115,7 @@ class Http extends RequestAbstract
         return $this->_post;
     }
 
-    /** SETTER */
+    /* SETTER */
 
     public function setModule($name = '')
     {
@@ -146,7 +146,7 @@ class Http extends RequestAbstract
         $this->_dispatched = (is_bool($flag)) ? $flag : false;
     }
 
-    /** EXTRAS */
+    /* EXTRAS */
 
     /**
      * perform AJAX check

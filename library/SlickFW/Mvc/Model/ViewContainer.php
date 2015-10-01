@@ -25,7 +25,7 @@ class ViewContainer extends ModelAbstract
      * @param View $view
      * @param array $data
      */
-    public function __construct(View $view, array $data = array())
+    public function __construct(View $view, array $data = [])
     {
         $this->_view = $view;
         parent::__construct();

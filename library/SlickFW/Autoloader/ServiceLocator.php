@@ -23,7 +23,7 @@ class ServiceLocator
      * Contains any attached service locators
      * @var array Locator
      */
-    protected $_locators = array();
+    protected $_locators = [];
 
     /**
      * @var ServiceLocator
@@ -83,7 +83,7 @@ class ServiceLocator
                 $locPath = $typeKey . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . $values['locator'] . '.php';
                 if (!class_exists($values['locator']) && file_exists($locPath)) {
                     require_once $locPath;
-                } elseif(!class_exists($values['locator'])
+                } elseif (!class_exists($values['locator'])
                     && file_exists(str_replace($key . DIRECTORY_SEPARATOR, '', $locPath))
                 ) {
                     $locPath = str_replace($key . DIRECTORY_SEPARATOR, '', $locPath);

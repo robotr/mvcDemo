@@ -69,7 +69,7 @@ class View
     protected $_useStreamWrapper = false;
 
     /**
-     * @var Collection
+     * @var array - {Collection}
      */
     protected $_parts;
 
@@ -77,7 +77,7 @@ class View
      * ctor for the view-object takes config-parameters (from a Controller) initialized in module-setup
      * @param array $options
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         // enable use of stream wrapper if short-tags are used/supported
         $this->_useViewStream = (bool) ini_get('short_open_tag') ? false : true;
@@ -99,7 +99,7 @@ class View
         if (isset($options['filters'])) {
             $this->_filter = $options['filters'];
         } else {
-            $this->_filter = array();
+            $this->_filter = [];
         }
 
         // walk through options-array to assign further settings
@@ -261,7 +261,7 @@ class View
                     break;
             }
         } elseif (method_exists($this, $method)) {
-            return call_user_func(array($this, $method), $params);
+            return call_user_func([$this, $method], $params);
         } else {
             // call shortcut methods / instantiate view-part class
             $file = dirname(__DIR__) . '/Mvc/View/Part/' . ucfirst($method) . '.php';

@@ -21,14 +21,14 @@ class Index extends ControllerAbstract
     public function index()
     {
         $baseUrl = $this->view->baseUrl();
-        $viewInit = array(
+        $viewInit = [
             'title' => 'Startpage',
             'head1' => 'Welcome Guest!',
             'head2' => 'You are on the Startpage',
-            'link1' => array('aText' => 'Stay in contact&hellip;', 'aHref' => $baseUrl . 'contact'),
-            'link2' => array('aText' => 'See the world&hellip;', 'aHref' => $baseUrl . '?world=1'),
-            'link3' => array('aText' => 'Browse the Albums&hellip;', 'aHref' => $baseUrl . '?albums=1')
-        );
+            'link1' => ['aText' => 'Stay in contact&hellip;', 'aHref' => $baseUrl . 'contact'],
+            'link2' => ['aText' => 'See the world&hellip;', 'aHref' => $baseUrl . '?world=1'],
+            'link3' => ['aText' => 'Browse the Albums&hellip;', 'aHref' => $baseUrl . '?albums=1']
+        ];
         $this->_model = new Container($this->view, $viewInit);
         if ($this->_request->getQuery()->count() > 0
             && $this->_request->getQuery()->offsetExists('world')
@@ -55,11 +55,11 @@ class Index extends ControllerAbstract
 
     public function imprint()
     {
-        $viewInit = array(
+        $viewInit = [
             'title' => 'About Us',
             'head1' => 'Imprint',
             'head2' => 'You are looking at the imprint of the website',
-        );
+        ];
         $this->_model = new Container($this->view, $viewInit);
 
         $this->_model->assignViewVars();

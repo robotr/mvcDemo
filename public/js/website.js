@@ -11,7 +11,7 @@ window.document.onreadystatechange = function () {
                 e.preventDefault();
                 if (undefined !== e.target && e.target.href.length > 0) {
                     var targetDiv = document.getElementById('contact');
-                    if (typeof targetDiv  == 'object') {
+                    if (typeof targetDiv == 'object') {
                         var xmlHttp = new XMLHttpRequest();
                         xmlHttp.onreadystatechange = function() {
                             if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {

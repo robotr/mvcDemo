@@ -29,13 +29,13 @@ class Container extends ViewContainer
             $tableData = $db->getCountries();
         } catch (\Exception $e) {
             /** @var \SlickFW\Error\Logger $log */
-            $log = Setup::getInstance('Website')->get(array('Logger' => 'file'));
+            $log = Setup::getInstance('Website')->get(['Logger' => 'file']);
             $log->error($e, Type::E_USER_EXCEPTION);
         } finally {
             if (isset($tableData)) {
-                $this->add(array('_testData' => $tableData));
+                $this->add(['_testData' => ['countries' => $tableData]]);
             } else {
-                $this->add(array('_testData' => array('error' => 'Database-Error')));
+                $this->add(['_testData' => ['countries' => ['error' => 'Database-Error']]]);
             }
         }
     }
@@ -47,13 +47,13 @@ class Container extends ViewContainer
             $tableData = $db->getAlbums();
         } catch (\Exception $e) {
             /** @var \SlickFW\Error\Logger $log */
-            $log = Setup::getInstance('Website')->get(array('Logger' => 'file'));
+            $log = Setup::getInstance('Website')->get(['Logger' => 'file']);
             $log->error($e, Type::E_USER_EXCEPTION);
         } finally {
             if (isset($tableData)) {
-                $this->add(array('_testData' => $tableData));
+                $this->add(['_testData' => ['albums' => $tableData]]);
             } else {
-                $this->add(array('_testData' => array('error' => 'Database-Error')));
+                $this->add(['_testData' => ['albums' => ['error' => 'Database-Error']]]);
             }
         }
     }

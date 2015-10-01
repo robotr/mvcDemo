@@ -42,7 +42,7 @@ class Route
             }
         }
         if (!$matched) {
-            self::execute('Error/noroute', $module, array());
+            self::execute('Error/noroute', $module, []);
         }
     }
 
@@ -53,7 +53,7 @@ class Route
      * @param array $args - possible additional arguments to pass to the specific route
      * @throws \Exception
      */
-    public static function execute($to, $module, $args = array())
+    public static function execute($to, $module, $args = [])
     {
         $keys = explode('/', $to);
         $controller = $className = array_shift($keys);
@@ -63,7 +63,7 @@ class Route
         $action = array_shift($keys);
         $className = $module . '\Controller\\' . $className;
         $class = null;
-        $values = array();
+        $values = [];
         /** @var ControllerAbstract $class */
         // check if a controller-class exists
         if (class_exists($className)) {
@@ -86,14 +86,14 @@ class Route
         }
         // check if action-method exists
         if (method_exists($className, $action)) {
-            $call = array($class, $action);
+            $call = [$class, $action];
         }
         if (!isset($call) && class_exists($module . '\Controller\Error')) {
             $className = $module . '\Controller\Error';
             $controller = 'Error';
             $method = $action = 'noaction';
             $class = new $className;
-            $call = array($class, $method);
+            $call = [$class, $method];
         } elseif (!class_exists($module . '\Controller\Error')) {
             throw new \Exception('Method "' . $action . '" not found in Class "' . $className . '"!');
         }
@@ -121,7 +121,7 @@ class Route
                 // log Exception
                 error_log($e);
                 // try responding with error-page
-                self::execute('Error/internal', $module, array());
+                self::execute('Error/internal', $module, []);
             }
         }
     }

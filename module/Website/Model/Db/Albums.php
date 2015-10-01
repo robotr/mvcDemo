@@ -18,9 +18,9 @@ class Albums
      */
     public function getAlbums()
     {
-        $result = array();
+        $result = [];
         /** @var \SlickFW\Service\Db $dbService */
-        $dbService = Setup::getInstance('Website')->get(array('Database' => 'other'));
+        $dbService = Setup::getInstance('Website')->get(['Database' => 'other']);
         try {
             $db = $dbService->getAdapter();
         } catch (\Exception $e) {

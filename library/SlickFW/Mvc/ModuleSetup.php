@@ -28,6 +28,11 @@ abstract class ModuleSetup implements ModuleInterface
     protected static $_instance;
 
     /**
+     * @var string
+     */
+    protected static $_appConfigPath = 'config/application.config.php';
+
+    /**
      * @var ServiceRegister
      */
     protected $_serviceRegister;
@@ -44,6 +49,7 @@ abstract class ModuleSetup implements ModuleInterface
 
     /**
      * ctor
+     * @param ServiceRegister $services
      */
     public function __construct(ServiceRegister $services)
     {
@@ -62,9 +68,9 @@ abstract class ModuleSetup implements ModuleInterface
         if (isset(self::$_instance)) {
             return self::$_instance;
         } else {
-            $applicationConfig = array();
-            if (file_exists('config/application.config.php')) {
-                $applicationConfig = require 'config/application.config.php';
+            $applicationConfig = [];
+            if (file_exists(self::$_appConfigPath)) {
+                $applicationConfig = require self::$_appConfigPath;
             }
             if (isset($module) && file_exists('module/' . $module . '/Config/module.config.php')) {
                 $moduleConfig = require 'module/' . $module . '/Config/module.config.php';
@@ -113,11 +119,11 @@ abstract class ModuleSetup implements ModuleInterface
      * @param array $config
      * @return $this|ModuleInterface
      */
-    protected static function _init($config = array())
+    protected static function _init($config = [])
     {
         $serviceRegister = new ServiceRegister($config);
         foreach ($config as $key => $value) {
-            $serviceRegister->add(array($key => $value));
+            $serviceRegister->add([$key => $value]);
         }
         self::$_instance = $serviceRegister->getService('Application');
         return self::$_instance;
@@ -125,14 +131,15 @@ abstract class ModuleSetup implements ModuleInterface
 
     /**
      * initialize module-configuration
-     * @uses Setup::_setupDatabase()
+     * @uses ModuleSetup::_setupErrorhandler()
+     * @uses ModuleSetup::_setupDefaultmodule()
      */
     protected function _initModule()
     {
         foreach ($this->_serviceRegister->toArray() as $type => $tValues) {
             $setupMethod = '_setup' . ucfirst($type);
             if (method_exists($this, $setupMethod)) {
-                call_user_func(array($this, $setupMethod), $tValues);
+                call_user_func([$this, $setupMethod], $tValues);
             }
         }
     }
@@ -154,9 +161,9 @@ abstract class ModuleSetup implements ModuleInterface
     private function _setupErrorhandler()
     {
         if (!isset($this->_handler)) {
-            $errorHandler = $this->_serviceRegister->getService(array('Errorhandler' => 'config'));
+            $errorHandler = $this->_serviceRegister->getService(['Errorhandler' => 'config']);
             if (!is_null($errorHandler) && method_exists($errorHandler, 'initHandler')) {
-                $this->_handler = call_user_func(array($errorHandler, 'initHandler'));
+                $this->_handler = call_user_func([$errorHandler, 'initHandler']);
             }
         }
     }

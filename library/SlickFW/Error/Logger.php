@@ -29,7 +29,7 @@ class Logger
      * directory of the invoking file</b>
      * @throws \Exception
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (isset($config['log_dir'])) {
             if (is_dir($path = realpath($config['log_dir'])) || is_dir($path = $config['log_dir'])) {

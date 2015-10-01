@@ -38,10 +38,10 @@ class Stream
      * @param string $path
      * @param string $mode
      * @param array $options
-     * @param int $opened_path
+     * @param int $openedPath
      * @return bool
      */
-    public function stream_open($path, $mode, $options, &$opened_path)
+    public function stream_open($path, $mode, $options, &$openedPath)
     {
         // get the view script source
         $path        = str_replace('slick.view://', '', $path);

@@ -17,7 +17,7 @@ class ServiceRegister extends ModelAbstract
      * collection of any previously called services
      * @var array
      */
-    protected $_services = array();
+    protected $_services = [];
 
     /**
      * check if a service has been registered
