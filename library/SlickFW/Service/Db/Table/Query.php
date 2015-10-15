@@ -42,6 +42,7 @@ class Query
     }
 
     /**
+     * builds a select query-string
      * @return string
      */
     public function assemble()

@@ -28,6 +28,7 @@ class Albums
         }
         $sth = null;
         if (isset($db)) {
+            $testSelect = $dbService->select('album')->assemble();
             $sth = $db->prepare('SELECT * FROM album');
             /** @var $sth \PDOStatement */
             if ($sth instanceof \PDOStatement && $sth->execute()) {

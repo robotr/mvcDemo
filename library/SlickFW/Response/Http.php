@@ -26,32 +26,47 @@ class Http extends ResponseAbstract
     public function __construct(RequestAbstract $request)
     {
         parent::__construct($request);
-        $this->setContentType('text/html; charset=UTF-8');
+        $this->_headers['Content-Type'] = 'text/html; charset=UTF-8';
     }
 
     /**
-     * set content-type header
+     * set a Response-Header, by default replaces any previous occurence of a header if $replace is not set to true
      * @param string $type
+     * @param string $value
+     * @param bool $replace
+     * @return $this
      */
-    public function setContentType($type)
+    public function setHeader($type, $value, $replace = false)
     {
-        if (!empty($type)) {
-            $type = trim(strip_tags($type));
-        } else {
-            $type = 'text/html; charset=UTF-8';
+        if (isset($this->_headers[$type]) && !empty($value)) {
+            if ($replace) {
+                $this->_headers[$type] = $value;
+            } else {
+                $this->_headers[$type] .= $value;
+            }
         }
-        $this->_headers += ['Content-Type' => $type];
+        return $this;
     }
 
     /**
-     * flush output-buffer/send response-body/
-     * @todo add http-headers
+     * unset all previously set Headers
+     * @return $this
+     */
+    public function resetHeaders()
+    {
+        $this->_headers = [];
+        return $this;
+    }
+
+    /**
+     * return/send response-body
+     * @return string
      */
     public function send()
     {
-       /* foreach ($this->_headers as $header => $type) {
-
-        }*/
+        foreach ($this->_headers as $type => $content) {
+            header($type . ': ' . $content);
+        }
 
         return $this->_body;
     }

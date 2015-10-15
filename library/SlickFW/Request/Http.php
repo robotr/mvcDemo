@@ -67,16 +67,25 @@ class Http extends RequestAbstract
 
     /* GETTER */
 
+    /**
+     * @return string the module name
+     */
     public function getModule()
     {
         return $this->_module;
     }
 
+    /**
+     * @return string the controller name
+     */
     public function getController()
     {
         return $this->_controller;
     }
 
+    /**
+     * @return string the action name
+     */
     public function getAction()
     {
         return $this->_action;
@@ -117,6 +126,11 @@ class Http extends RequestAbstract
 
     /* SETTER */
 
+    /**
+     * sets the module name
+     * @param string $name
+     * @return $this
+     */
     public function setModule($name = '')
     {
         if (!empty($name) && is_string($name)) {
@@ -125,6 +139,11 @@ class Http extends RequestAbstract
         return $this;
     }
 
+    /**
+     * sets the controller name
+     * @param string $name
+     * @return $this
+     */
     public function setController($name = '')
     {
         if (!empty($name) && is_string($name)) {
@@ -133,6 +152,11 @@ class Http extends RequestAbstract
         return $this;
     }
 
+    /**
+     * sets the action name
+     * @param string $name
+     * @return $this
+     */
     public function setAction($name = '')
     {
         if (!empty($name) && is_string($name)) {
@@ -141,6 +165,10 @@ class Http extends RequestAbstract
         return $this;
     }
 
+    /**
+     * set wether or not the request has been dispatched
+     * @param bool $flag
+     */
     public function setDispatched($flag = false)
     {
         $this->_dispatched = (is_bool($flag)) ? $flag : false;

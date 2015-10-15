@@ -31,7 +31,7 @@ class World
         }
         $sth = null;
         if (isset($db)) {
-        //$dbService->select('Country', array('Name', 'Continent', 'Region'))->assemble());
+        //$dbService->select('Country', array('Name', 'Continent', 'Region'))->assemble();
             $sth = $db->prepare('SELECT * FROM Country');
             /** @var $sth \PDOStatement */
             if ($sth instanceof \PDOStatement && $sth->execute()) {

@@ -71,7 +71,7 @@ abstract class ControllerAbstract
     public function getResponse()
     {
         if ($this->_request->isDispatched() && $this->_request->isAjax()) {
-            $this->_response->setContentType('application/json, text/xml, text/html; charset=UTF-8');
+            $this->_response->setHeader('Content-Type', 'application/json, text/xml, text/html; charset=UTF-8', true);
         }
         return $this->_response;
     }
