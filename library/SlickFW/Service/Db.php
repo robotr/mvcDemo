@@ -45,16 +45,17 @@ class Db extends DbAbstract
         if (!empty($from)) {
             $query->queryString = 'SELECT ';
             if (!is_array($what) && is_string($what)) {
-                 $query->queryString .= $this->_conn->quote($what) . ' FROM ' . $this->_conn->quote($from);
+                 $query->queryString .= ((Query::WILDCARD !== $what) ? '`' . $what . '`' : $what);
+                 $query->queryString .= ' FROM `' . $from . '`';
             } else {
                 if (empty($what)) {
                     return $this->select($from);
                 }
                 foreach ($what as $num => $col) {
-                    $query->queryString .= $this->_conn->quote($col);
-                    $query->queryString .= ($num + 1 < count($what)) ? ', ' : null;
+                    $query->queryString .= '`' . $col;
+                    $query->queryString .= ($num + 1 < count($what)) ? '`, ' : '`';
                 }
-                $query->queryString .= ' FROM ' . $this->_conn->quote($from);
+                $query->queryString .= ' FROM `' . $from . '`';
             }
         }
         return $query;

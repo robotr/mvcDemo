@@ -31,11 +31,21 @@ class World
         }
         $sth = null;
         if (isset($db)) {
-        //$dbService->select('Country', array('Name', 'Continent', 'Region'))->assemble();
-            $sth = $db->prepare('SELECT * FROM Country');
+            $sth = $db->prepare($dbService->select('Country', ['Name', 'Continent', 'Region']));
             /** @var $sth \PDOStatement */
-            if ($sth instanceof \PDOStatement && $sth->execute()) {
-                $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
+            if ($sth instanceof \PDOStatement) {
+                if ($sth->execute()) {
+                    $result = $sth->fetchAll(\PDO::FETCH_OBJ);
+                } else {
+                    $err = $sth->errorInfo();
+                }
+            } else {
+                $err = $db->errorInfo();
+            }
+            if (isset($err) && NULL !== $err[1] && NULL !== $err[2]) {
+                // log any database-error that might have occured
+                Setup::getInstance('Website')->get(['Logger' => 'file'])
+                    ->error('[Code: ' . $err[1] . '] ' . $err[2]);
             }
         }
         return $result;

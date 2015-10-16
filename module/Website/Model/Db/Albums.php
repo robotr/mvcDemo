@@ -28,11 +28,21 @@ class Albums
         }
         $sth = null;
         if (isset($db)) {
-            $testSelect = $dbService->select('album')->assemble();
-            $sth = $db->prepare('SELECT * FROM album');
+            $sth = $db->prepare($dbService->select('album'));
             /** @var $sth \PDOStatement */
-            if ($sth instanceof \PDOStatement && $sth->execute()) {
-                $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
+            if ($sth instanceof \PDOStatement) {
+                if ($sth->execute()) {
+                    $result = $sth->fetchAll(\PDO::FETCH_OBJ);
+                } else {
+                    $err = $sth->errorInfo();
+                }
+            } else {
+                $err = $db->errorInfo();
+            }
+            if (isset($err) && NULL !== $err[1] && NULL !== $err[2]) {
+                // log any database-error that might have occured
+                Setup::getInstance('Website')->get(['Logger' => 'file'])
+                    ->error('[Code: ' . $err[1] . '] ' . $err[2]);
             }
         }
         return $result;

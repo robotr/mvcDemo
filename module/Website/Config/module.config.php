@@ -33,7 +33,7 @@ return [
             'dbname'  => 'world',
             'options' => [
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-                PDO::MYSQL_ATTR_USE_BUFFERED_QUERY
+                PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
             ]
         ],
         'other' => [
@@ -44,7 +44,7 @@ return [
             'dbname'  => 'albums',
             'options' => [
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-                PDO::MYSQL_ATTR_USE_BUFFERED_QUERY
+                PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
             ]
         ]
     ],

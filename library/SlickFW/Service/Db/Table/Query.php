@@ -47,7 +47,7 @@ class Query
      */
     public function assemble()
     {
-        return $this->queryString;
+        return $this->__toString();
     }
 
     /**
