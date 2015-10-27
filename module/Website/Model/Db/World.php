@@ -42,7 +42,7 @@ class World
             } else {
                 $err = $db->errorInfo();
             }
-            if (isset($err) && NULL !== $err[1] && NULL !== $err[2]) {
+            if (isset($err) && null !== $err[1] && null !== $err[2]) {
                 // log any database-error that might have occured
                 Setup::getInstance('Website')->get(['Logger' => 'file'])
                     ->error('[Code: ' . $err[1] . '] ' . $err[2]);

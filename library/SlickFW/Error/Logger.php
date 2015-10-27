@@ -23,7 +23,7 @@ class Logger
     protected $_fileName = '';
 
     /**
-     * creates a logger to as an application-service
+     * creates a logger as an application-service
      * @param array $config - array of configuration-parameters
      * <br><b>requires at least a configuration-entry named "log_dir" with a read/write-accessible path relative to the
      * directory of the invoking file</b>

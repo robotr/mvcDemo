@@ -26,7 +26,7 @@ class Db extends DbAbstract
         if (!$this->_conn instanceof \PDO || !$this->_state) {
             try {
                 return $this->_getConnection();
-            }  catch (\Exception $e) {
+            } catch (\Exception $e) {
                 throw $e;
             }
         }
