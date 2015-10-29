@@ -59,19 +59,19 @@ return [
         ]
     ],
     'routes' => [
-        '#^/$#i'                     => [
+        '#^/$#i' => [
             'name' => 'Index/index',
             'type' => 'SlickFW\Router\Route\Regex'],
-        '#^/([a-zA-Z0-9]*)$#i'       => [
+        '#^/([a-zA-Z0-9]*)$#i' => [
             'name' => 'Index/:action',
             'type' => 'SlickFW\Router\Route\Regex'],
-        '/imprint'                   => [
+        '/imprint' => [
             'name' => 'Index/imprint',
             'type' => 'SlickFW\Router\Route\Simple'],
         '#^/error/([a-zA-Z0-9]*)$#i' => [
             'name' => 'Error/:action',
             'type' => 'SlickFW\Router\Route\Regex'],
-        '#^/([a-zA-Z0-9]*)/(.*)$#i'  => [
+        '#^/([a-zA-Z0-9]*)/(.*)$#i' => [
             'name' => ':Controller/:action',
             'type' => 'SlickFW\Router\Route\Regex'],
     ],

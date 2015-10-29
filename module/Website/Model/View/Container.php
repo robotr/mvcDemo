@@ -40,6 +40,9 @@ class Container extends ViewContainer
         }
     }
 
+    /**
+     * fetch albums from DB "albums" and Table "album"
+     */
     public function getAlbums()
     {
         $db = new Albums();
