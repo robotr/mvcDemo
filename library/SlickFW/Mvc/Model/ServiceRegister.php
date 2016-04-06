@@ -80,7 +80,11 @@ class ServiceRegister extends ModelAbstract
                         $this->_services[$setup['class']] = $service;
                     }
                 } else {
-                    $service = $this->_services[$setup['class']];
+                    if (isset($value)) {
+                        $service = $this->_services[$setup['class']][$value];
+                    } else {
+                        $service = $this->_services[$setup['class']];
+                    }
                 }
             } elseif ((is_string($name) || is_int($name)) && $this->_data->offsetExists($name)) {
                 $service = $this->_data->offsetGet($name);
