@@ -65,4 +65,19 @@ class Index extends ControllerAbstract
         $this->_model->assignViewVars();
     }
 
+    public function nlconfirmation()
+    {
+        if ($this->_request->isAjax()) {
+            if (!empty($post = $this->_request->getPost())) {
+                if (isset($post['nl-email'])) {
+                    $this->view->success = true;
+                    $this->view->responseText = 'Deine Anmeldung zum Newsletter war erfogreich!';
+                }
+            }
+        } else {
+            $this->index();
+            exit;
+        }
+    }
+
 }
