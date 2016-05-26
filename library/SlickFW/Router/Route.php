@@ -35,7 +35,9 @@ class Route
         $matched = false;
         foreach ($mapping as $from => $to) {
             $to['uri'] = $uri;
-            $matched = $to['type']::process($from, $to, $module);
+            /** @var RouteInterface $route */
+            $route = $to['type'];
+            $matched = $route::process($from, $to, $module);
             if ($matched) {
                 self::execute($to['name'], $module, $matched);
                 break;

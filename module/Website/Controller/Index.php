@@ -75,8 +75,7 @@ class Index extends ControllerAbstract
                 }
             }
         } else {
-            $this->index();
-            exit;
+            return $this->index();
         }
     }
 

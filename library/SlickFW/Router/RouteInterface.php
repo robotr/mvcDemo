@@ -5,7 +5,7 @@
  * @author    cloud-nemo
  */
 /**
- * SlickFW\Router\RouteInterface
+ * RouteInterface
  *
  * @package SlickFW\Router
  */
