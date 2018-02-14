@@ -7,7 +7,7 @@
 if (is_string($this->text) && !empty($this->text)) { ?>
     <form id="nl-form" action="<?php echo $this->baseUrl() ?>nlconfirmation" method="post">
         <label for="nl-email"><?php echo $this->text ?></label><br>
-        <input type="text" name="nl-email" value="" placeholder="me@mail.org"/><br>
+        <input name="nl-email" value="" placeholder="me@mail.org"/><br>
         <input type="submit" name="nl-submit" value="F&uuml;r den Newsletter registrieren"/>
     </form>
 <?php }

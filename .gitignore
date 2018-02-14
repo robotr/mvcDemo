@@ -1,2 +1,14 @@
 /log/
 /.idea/
+/node_modules/
+/public/admin
+/public/aidu
+/public/aidu-cron
+/public/aidu-release
+/public/aidu-service
+/public/categorypages
+/public/reisen
+/public/seo-cms-admin
+/public/seo-facebook
+/public/travel24
+/phpMakeJoinedArray.php

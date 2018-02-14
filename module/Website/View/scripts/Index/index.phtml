@@ -7,14 +7,23 @@
 ?>
 <h1><?php echo $this->head1 ?></h1>
 <h2><?php echo $this->head2 ?></h2>
+
 <?php if (is_array($this->link1)) { ?>
-<a class="link" id="link1" href="<?php echo $this->link1['aHref'] ?>"><?php echo $this->link1['aText'] ?></a>
+    <a class="link" id="link1" href="<?php echo $this->link1['aHref'] ?>"><?php echo $this->link1['aText'] ?></a>
 <?php } ?><br>
+
 <?php if (is_array($this->link2)) { ?>
-<a class="link" id="link2" href="<?php echo $this->link2['aHref'] ?>"><?php echo $this->link2['aText'] ?></a>
+    <a class="link" id="link2" href="<?php echo $this->link2['aHref'] ?>"><?php echo $this->link2['aText'] ?></a>
 <?php } ?><br>
+
 <?php if (is_array($this->link3)) { ?>
-<a class="link" id="link3" href="<?php echo $this->link3['aHref'] ?>"><?php echo $this->link3['aText'] ?></a>
+    <a class="link" id="link3" href="<?php echo $this->link3['aHref'] ?>"><?php echo $this->link3['aText'] ?></a><br>
 <?php }
+
+foreach ($this->symlinks as $i => $link) { ?>
+    <a class="link" id="symlink<?php echo $i+1 ?>" href="<?php echo $link['aHref'] ?>"><?php echo $link['aText'] ?></a>
+    <br>
+<?php }
+
 echo (isset($this->testData)) ? '<pre>' . var_export($this->testData, true) . '</pre>' : null ?>
 <div id="contact"></div>

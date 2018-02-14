@@ -7,6 +7,9 @@
 (defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', 'local'));
 
+defined('PROJECTS_PATH')
+    || define('PROJECTS_PATH', '/home/vagrant/project/workspace/');
+
 chdir(dirname(__DIR__));
 
 require 'autoload.php';
